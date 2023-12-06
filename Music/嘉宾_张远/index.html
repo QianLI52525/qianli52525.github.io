@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head> 
-<meta charset="utf-8"> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>张远 嘉宾</title> 
 </head>
 <style>
@@ -11,6 +12,11 @@ body {
       background-image: url('jiabin.jpg'); 
       background-size: cover; 
       background-attachment: fixed; 
+    }
+    @media (max-width: 100%) and (max-height: 100%) {
+      body {
+        background-attachment: scroll;
+      }
     }
 .lyrics p{
     color : white;
