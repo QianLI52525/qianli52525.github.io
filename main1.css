@@ -2,6 +2,8 @@
   --base-size : calc(6vmin - 1vmax + 6px);  
   --base-heit : calc(6vmin - 1vmax);  
   --base-wid : calc(4vmin - 1vmax);
+  --title-bord-clr : #378b8c;
+  --cont-bord-clr : #378b8c00;
 }
 
 
@@ -97,12 +99,12 @@ a.hbtn:hover {
 	font:normal bold;
 }
 a:link {
-	color: #443494;
+	color: #5444a4;
 	background-color: transparent; 
 	text-decoration: none;
 }
 a:visited {
-	color: #443494;
+	color: #5444a4;
 	background-color: transparent;
 	text-decoration: none;
 }
@@ -133,7 +135,7 @@ a:active {
     border-radius: 100px;
     background-color: #ffffff00;
     border-style: double;
-    border-color: #37a4b3;}
+    border-color: var(--title-bord-clr);}
 .title1 {
     display: block;
     height: auto;
@@ -148,15 +150,14 @@ a:active {
     font-weight: 400;}
 .titleborder2 {
     padding: 8px 12px;
-    border-width: 4px;
+    border-width: 2px;
     margin: 16px 0px;
-
     text-align: center;
     text-decoration: none;
     border-radius: 100px;
     background-color: #ffffff00;
     border-style: dashed;
-    border-color: #37a4b3;}
+    border-color: var(--title-bord-clr);}
 .title2 {
     display: block;
     height: auto;
@@ -171,14 +172,14 @@ a:active {
     font-weight: 500;}
 .contentborder1 {
     padding: 4px 6px;
-    border-width: 0.5vmin;
+    border-width: 1px;
     margin: 8px 0px;
     text-align: center;
     text-decoration: none;
     border-radius: 0.5vmax;
     background-color: #ffffff00;
     border-style: dotted;
-    border-color: #37a4b3;}
+    border-color: var(--cont-bord-clr);}
 .content1 {
 	display: block;
 	padding: 0px 0px;
