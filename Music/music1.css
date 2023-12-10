@@ -1,0 +1,55 @@
+:root {
+	--base-size : calc(6vmin - 1vmax + 6px);  
+	--base-heit : calc(6vmin - 1vmax);  
+	--base-wid : calc(4vmin - 1vmax);
+	--title-bord-clr : #378b8c;
+	--cont-bord-clr : #378b8c20;
+}
+
+.titlew{
+    display: block;
+    height: auto;
+    width: 100%;
+    font-color : white;
+    font-size: calc(var(--base-size) * 0.95);
+    font-weight: 700;}
+}
+
+.subtitlew {
+    display: block;
+    height: auto;
+    width: 100%;
+    font-color : white;
+    font-size: calc(var(--base-size) * 0.82);
+    font-weight: 600;}
+
+.lyricsw {
+	display: block;
+    font-color : white;
+	font-size: calc(var(--base-size) * 0.7);
+	font-weight: 500;
+}
+
+.titleb{
+    display: block;
+    height: auto;
+    width: 100%;
+    font-color : black;
+    font-size: calc(var(--base-size) * 0.95);
+    font-weight: 700;}
+}
+
+.subtitleb {
+    display: block;
+    height: auto;
+    width: 100%;
+    font-color : black;
+    font-size: calc(var(--base-size) * 0.82);
+    font-weight: 600;}
+
+.lyricsb {
+	display: block;
+    font-color : black;
+	font-size: calc(var(--base-size) * 0.7);
+	font-weight: 500;
+}
