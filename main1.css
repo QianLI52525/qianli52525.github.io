@@ -78,7 +78,6 @@ a.webpage:hover {
 .hbtn {
     border-width: 3px;
     padding: 1vh 1vw;
-
     border-color: rgb(0, 0, 0);
     border-style: solid;
     border-radius: .5vw;
@@ -93,9 +92,7 @@ a.btn:hover {
     letter-spacing: 0.5vw;}
 a.hbtn:hover {
     letter-spacing: 0.5vw;}
-.content p{
-	font:normal bold;
-}
+
 a:link {
 	color: #5444a4;
 	background-color: transparent; 
@@ -116,6 +113,7 @@ a:active {
 	background-color: transparent;
 	text-decoration: underline;
 }
+
 /*border-style:dotted solid double dashed; 
 上边框是点状
 右边框是实线
