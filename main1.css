@@ -3,9 +3,8 @@
   --base-heit : calc(6vmin - 1vmax);  
   --base-wid : calc(4vmin - 1vmax);
   --title-bord-clr : #378b8c;
-  --cont-bord-clr : #378b8c00;
+  --cont-bord-clr : #378b8c20;
 }
-
 
 video {
     position: fixed;
@@ -29,7 +28,6 @@ video {
     background-color: #ffffff70;
     border-style: solid;
     border-color: #65a4b8;
-
     border-width: 3px;
     display: inline-block;
     text-align: center;
