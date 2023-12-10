@@ -1,3 +1,10 @@
+:root {
+  --base-size : calc(6vmin - 1vmax + 6px);  
+  --base-heit : calc(6vmin - 1vmax);  
+  --base-wid : calc(4vmin - 1vmax);
+}
+
+
 video {
     position: fixed;
     top: 0;
@@ -54,20 +61,20 @@ a.webpage:hover {
     padding-right: auto;}
 .btn_class {
     width: calc(100%);}
-.btn {
-    border-width: 3px;
+.sbtn {
+    border-width: calc(var(--base-wid) * 0.14);
     padding: 1vh 1vw;
-
-    border-color: rgb(0, 0, 0);
+    width: 29vw;
+    height: calv(var(--base-heit) * 2);
+    border-color: #000000;
     border-style: solid;
-    border-radius: .5vw;
+    border-radius: 0.5vw;
     display: inline-block;
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+    background-color: #000000;
+    color: #FFFFFF;
     text-align: center;
     text-decoration: none;
-    font-size: 1.2vw;
-    transition: 0.2s;}
+    font-size: calc(var(--base-size) * 0.4);}
 .hbtn {
     border-width: 3px;
     padding: 1vh 1vw;
@@ -90,12 +97,12 @@ a.hbtn:hover {
 	font:normal bold;
 }
 a:link {
-	color: #5a47ba;
+	color: #443494;
 	background-color: transparent; 
 	text-decoration: none;
 }
 a:visited {
-	color: #5a47ba;
+	color: #443494;
 	background-color: transparent;
 	text-decoration: none;
 }
@@ -115,9 +122,6 @@ a:active {
 下边框是双线
 左边框是虚线*/
 
-:root {
-  --base-size : calc(6vmin - 1vmax + 6px);  
-}
 
 .titleborder1 {
     padding: 18px 20px;
@@ -134,19 +138,19 @@ a:active {
     display: block;
     height: auto;
     width: 100%;
-    font-size: calc(var(--base-size));
+    font-size: calc(var(--base-size) * 1.15);
     font-weight: 600;}
 .subtitle1 {
     display: block;
     height: auto;
     width: 100%;
-    font-size: calc(var(--base-size) * 0.6);
+    font-size: calc(var(--base-size) * 0.7);
     font-weight: 400;}
 .titleborder2 {
     padding: 8px 12px;
     border-width: 4px;
     margin: 16px 0px;
-    display: block;
+
     text-align: center;
     text-decoration: none;
     border-radius: 100px;
@@ -157,7 +161,7 @@ a:active {
     display: block;
     height: auto;
     width: 100%;
-    font-size: calc(var(--base-size) * 0.85);
+    font-size: calc(var(--base-size) * 0.95);
     font-weight: 600;}
 .subtitle2 {
     display: block;
@@ -165,9 +169,30 @@ a:active {
     width: 100%;
     font-size: 4.2vmin;
     font-weight: 500;}
-    
+.contentborder1 {
+    padding: 4px 6px;
+    border-width: 0.5vmin;
+    margin: 8px 0px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 0.5vmax;
+    background-color: #ffffff00;
+    border-style: dotted;
+    border-color: #37a4b3;}
+.content1 {
+	display: block;
+	padding: 0px 0px;
+	border-width: 0.1vw;
+	border-color: #FFFFFF10;
+	width: 9vw
+	font-size: calc(var(--base-size) * 0.7);
+	font-weight: 700;}
+
 hr.div1 {
   border-top: 2px solid #37a4b3;
+}
+hr.end1 {
+  border-top: 8px double #47b4c3;
 }
     
 @media screen and (min-width: 1000px) {
