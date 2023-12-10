@@ -20,13 +20,13 @@
     height: auto;
     width: 100%;
     color : #ffffff;
-    font-size: calc(var(--base-size) * 0.82);
+    font-size: calc(var(--base-size) * 0.7);
     font-weight: 600;}
 
 .lyricsw {
 	display: block;
     color : #ffffff;
- font-size: calc(var(--base-size) * 0.7);
+ font-size: 18px;
 	font-weight: 500;}
 
 .titleb{
@@ -43,7 +43,7 @@
     height: auto;
     width: 100%;
     color : #000000;
-    font-size: calc(var(--base-size) * 0.82);
+    font-size: 18px;
     font-weight: 600;}
 
 .lyricsb {
