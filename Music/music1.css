@@ -10,7 +10,7 @@
     display: block;
     height: auto;
     width: 100%;
-    font-color : white;
+    font-color : #000000;
     font-size: calc(var(--base-size) * 0.95);
     font-weight: 700;}
 }
@@ -19,13 +19,13 @@
     display: block;
     height: auto;
     width: 100%;
-    font-color : white;
+    font-color : #000000;
     font-size: calc(var(--base-size) * 0.82);
     font-weight: 600;}
 
 .lyricsw {
 	display: block;
-    font-color : white;
+    font-color : #000000;
 	font-size: calc(var(--base-size) * 0.7);
 	font-weight: 500;
 }
@@ -34,7 +34,7 @@
     display: block;
     height: auto;
     width: 100%;
-    font-color : black;
+    font-color : #ffffff;
     font-size: calc(var(--base-size) * 0.95);
     font-weight: 700;}
 }
@@ -43,13 +43,13 @@
     display: block;
     height: auto;
     width: 100%;
-    font-color : black;
+    font-color : #ffffff;
     font-size: calc(var(--base-size) * 0.82);
     font-weight: 600;}
 
 .lyricsb {
 	display: block;
-    font-color : black;
+    font-color : #ffffff;
 	font-size: calc(var(--base-size) * 0.7);
 	font-weight: 500;
 }
