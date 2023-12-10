@@ -10,7 +10,7 @@
     display: block;
     height: auto;
     width: 100%;
-    color : #000000;
+    color : #ffffff;
     font-size: calc(var(--base-size) * 0.95);
     font-weight: 700;}
 }
@@ -19,22 +19,21 @@
     display: block;
     height: auto;
     width: 100%;
-    color : #000000;
+    color : #ffffff;
     font-size: calc(var(--base-size) * 0.82);
     font-weight: 600;}
 
 .lyricsw {
 	display: block;
-    color : #000000;
-	font-size: calc(var(--base-size) * 0.7);
-	font-weight: 500;
-}
+    color : #ffffff;
+ font-size: calc(var(--base-size) * 0.7);
+	font-weight: 500;}
 
 .titleb{
     display: block;
     height: auto;
     width: 100%;
-    color : #ffffff;
+    color : #000000;
     font-size: calc(var(--base-size) * 0.95);
     font-weight: 700;}
 }
@@ -43,13 +42,13 @@
     display: block;
     height: auto;
     width: 100%;
-    color : #ffffff;
+    color : #000000;
     font-size: calc(var(--base-size) * 0.82);
     font-weight: 600;}
 
 .lyricsb {
 	display: block;
-    color : #ffffff;
+    color : #000000;
 	font-size: calc(var(--base-size) * 0.7);
 	font-weight: 500;
 }
