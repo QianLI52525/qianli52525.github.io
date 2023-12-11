@@ -30,7 +30,7 @@ body {
 	
 	<div id="lyrics" class="lyricsb"></div>
 	<script>
-		fetch('lyrics.txt')
+		fetch('lyrics.html')
 		.then(response => {
 			if (!response.ok) {
 				throw new Error('歌词获取失败');
