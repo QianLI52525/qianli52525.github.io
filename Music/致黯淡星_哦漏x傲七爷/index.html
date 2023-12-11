@@ -10,7 +10,7 @@
 
 <style>
 body {
-      background-image: url('https://qianli52525.github.io/Music/致黯淡星_哦漏x傲七爷/zadxbg2.jpeg'); 
+      background-image: url('zadxbg2.jpeg'); 
       background-size: cover; 
       background-attachment: fixed; 
     }
@@ -21,7 +21,7 @@ body {
     
 	<br>
 	<audio controls>
-		<source src="https://qianli52525.github.io/Music/致黯淡星_哦漏x傲七爷/zhiandanxing.mp3" height="20%" width="20%">
+		<source src="zhiandanxing.mp3" height="20%" width="20%">
 	</audio>
 	<br><br>
         
@@ -30,7 +30,7 @@ body {
 	
 	<div id="lyrics" class="lyricsw"></div>
 	<script>
-		fetch('https://qianli52525.github.io/Music/致黯淡星_哦漏x傲七爷/lyrics.txt')
+		fetch('lyrics.txt')
 		.then(response => {
 			if (!response.ok) {
 				throw new Error('歌词获取失败');
