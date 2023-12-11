@@ -1,104 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head> 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>让风告诉你 ChiliChill</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>让风告诉你 ChiliChill</title>
+	<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/main1.css">
+	<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/Music/music1.css">
 </head>
+
 <style>
 body {
       background-image: url('rangfenggaosunibg1.jpeg'); 
       background-size: cover; 
       background-attachment: fixed; 
     }
-.lyrics p{
-    color : black;
-    font : normal bold;
-}
 </style>
 
-<body style="opacity：0.8">
-<h1 style="color : black">让风告诉你 ChiliChill</h1>
+<body>
+	<div class="titlew">让风告诉你 ChiliChill</div>
+    
+	<br>
+	<audio controls>
+		<source src="rangfenggaosuni.mp3" height="20%" width="20%">
+	</audio>
+	<br><br>
+        
+	<div class="subtw">歌词</div>
+	<br>
+	
+	<div id="lyrics" class="lyricsw"></div>
+	<script>
+		fetch('lyrics.txt')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('歌词获取失败');
+			}
+			return response.text();
+		})
+		.then(htmlContent => {
+			document.getElementById('lyrics').innerHTML = htmlContent;
+		})
+		.catch(error => {
+			console.error('Error loading content:', error);
+			document.getElementById('lyrics').innerHTML = '歌词获取失败';
+		});
+	</script>
 
-<audio controls>
-  <source src="rangfenggaosuni.mp3" height="20%" width="20%">
-</audio>
-<h2 style="color : black">歌词</h2>
-<div class = "lyrics">
-<p>
-【可莉】<br>
-当你的天空突然下起了大雨<br>
-那是我在为你炸乌云<br>
-【温迪】<br>
-当你的发丝微乱有阵风吹过<br>
-那是我在远处想念你<br>
-<br>
-【可莉】<br>
-你是在忙吗 还是在摸鱼<br>
-我看看 哇 好大一条<br>
-那个 摸完能不能借我炸一下<br>
-看起来你怎么不开心<br>
-虽然不知道发生了什么<br>
-吃饱了再去想吧<br>
-【魈】<br>
-(这东西 能吃吗)<br>
-<br>
-【合】<br>
-烦恼都走开 烦恼都走开<br>
-加班都走开 加班都走开<br>
-倒霉都走开 倒霉都走开<br>
-<br>
-坏人都走开 坏人都走开<br>
-尴尬都走开 尴尬都走开<br>
-史莱姆走开 史莱姆走开<br>
-<br>
-【可莉】<br>
-当你的天空突然下起了大雨<br>
-那是我在为你炸乌云<br>
-【温迪】<br>
-当你的发丝微乱有阵风吹过<br>
-那是我在远处想念你<br>
-<br>
-【七七】<br>
-哦 轮到我了<br>
-你在忙吗 还是在摸鱼<br>
-我看看 哇 好大一条<br>
-那个 摸完能不能借她炸一下<br>
-哎 唱不完了<br>
-<br>
-【魈】<br>
-不见万家灯火<br>
-尽斩世间妖魔<br>
-如此一切只为苍生不要想太多<br>
-平凡的起起落落<br>
-漂浮的因果对错<br>
-都可以向风诉说<br>
-<br>
-【可莉】<br>
-当前面太多阻碍看不到对岸<br>
-请替我保密我为你炸平<br>
-【七七】<br>
-虽然我讨厌热热乎乎的东西<br>
-我却想要拥抱你可以吗<br>
-<br>
-【魈】<br>
-如果你迷恋岁月舍不得向前<br>
-我就默默记录这诗篇<br>
-【温迪】<br>
-如果你厌倦引力想要去飞行<br>
-我就让全世界的风吹向你<br>
-<br>
-【可莉】<br>
-当你的天空突然下起了大雨<br>
-那是我在为你炸乌云<br>
-【温迪】<br>
-当你的发丝微乱有阵风吹过<br>
-那是我在远处想念你<br>
-啦啦啦啦啦啦......<br>
-<br>
-</p></div>
+	<hr class="divw">
 
-<p style="font-size : 12px; color : black">
+	<div class="discw">
 演唱：<br>
 可莉——花玲<br>
 温迪——喵☆酱<br>
@@ -115,6 +65,7 @@ body {
 弦乐录音：李昕达@九紫天诚<br>
 人声录音棚：YIHE Studio<br>
 混音/母带：ChiliChill<br>
-歌曲来源：<a href="https://b23.tv/o6PAjtk">bilibili</a><br></p>
+歌曲来源：<a href="https://b23.tv/o6PAjtk">bilibili</a><br>
+	</div>
 </body>
 </html>
