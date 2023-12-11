@@ -28,7 +28,7 @@
 	font-weight: 500;}
 
 hr.divw {
-  border-top: 2px solid #ffffff;
+  border: 2px solid #ffffff;
 }
     
 .discw {
@@ -60,7 +60,7 @@ hr.divw {
 	font-weight: 500;}
 
 hr.divb {
-  border-top: 2px solid #000000;
+  border: 2px solid #000000;
 }
     
 .discb {
