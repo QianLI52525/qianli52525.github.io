@@ -13,7 +13,6 @@
     color : #ffffff;
     font-size: calc(var(--base-size) * 0.95);
     font-weight: 700;}
-}
 
 .subtw {
     display: block;
@@ -22,7 +21,6 @@
     color : #ffffff;
     font-size: calc(var(--base-size) * 0.75);
     font-weight: 700;}
-}
 
 .lyricsw {
 	display: block;
@@ -37,7 +35,6 @@
     color : #000000;
     font-size: calc(var(--base-size) * 0.95);
     font-weight: 700;}
-}
 
 .subtb {
     display: block;
@@ -51,5 +48,4 @@
 	display: block;
     color : #000000;
 	font-size: calc(16px + 0.1vw - 0.1vh);
-	font-weight: 500;
-}
+	font-weight: 500;}
