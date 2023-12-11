@@ -1,88 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head> 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>最后一页 江语晨（演唱：王泽科）</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>最后一页 江语晨（演唱：王泽科）</title>
+	<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/main1.css">
+	<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/Music/music1.css">
 </head>
+
 <style>
 body {
       background-image: url('zuihouyiyebg1.jpeg'); 
       background-size: cover; 
-      background-attachment: fixed;
-      background-color: rgba(255,255,255,0.2);
+      background-attachment: fixed; 
     }
-.lyrics p{
-    color : black;
-    font : normal bold;
-}
 </style>
 
 <body>
-<h1 style="color : black">最后一页 江语晨（演唱：王泽科）</h1>
+	<div class="titleb">最后一页 江语晨（演唱：王泽科）</div>
+    
+	<br>
+	<audio controls>
+		<source src="zuihouyiye.mp3" height="20%" width="20%">
+	</audio>
+	<br><br>
+        
+	<div class="subtb">歌词</div>
+	<br>
+	
+	<div id="lyrics" class="lyricsb"></div>
+	<script>
+		fetch('lyrics.txt')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('歌词获取失败');
+			}
+			return response.text();
+		})
+		.then(htmlContent => {
+			document.getElementById('lyrics').innerHTML = htmlContent;
+		})
+		.catch(error => {
+			console.error('Error loading content:', error);
+			document.getElementById('lyrics').innerHTML = '歌词获取失败';
+		});
+	</script>
 
-<audio controls>
-  <source src="zuihouyiye.mp3" height="20%" width="20%">
-</audio>
-<h2 style="color : black">歌词</h2>
-<div class = "lyrics">
-<p>
-雨停滞天空之间<br>
-像泪在眼眶盘旋<br>
-这也许是最后一次见面<br>
-<br>
-沿途经过的从前<br>
-还来不及再重演<br>
-拥抱早已悄悄冷却<br>
-<br>
-海潮声 淹没了离别时的黄昏<br>
-只留下不舍的体温<br>
-星空下 拥抱着快凋零的温存<br>
-爱只能在回忆里完整<br>
-<br>
-想把你抱进身体里面<br>
-不敢让你看见<br>
-嘴角那颗没落下的泪<br>
-<br>
-如果这是最后的一页<br>
-在你离开之前<br>
-能否让我把故事重写<br>
-<br>
-雨停滞天空之间<br>
-像泪在眼眶盘旋<br>
-这也许是最后一次见面<br>
-<br>
-沿途经过的从前<br>
-还来不及再重演<br>
-拥抱早已悄悄冷却<br>
-<br>
-海潮声 淹没了离别时的黄昏<br>
-只留下不舍的体温<br>
-星空下 拥抱着快凋零的温存<br>
-爱只能在回忆里完整<br>
-<br>
-想把你抱进身体里面<br>
-不敢让你看见<br>
-嘴角那颗没落下的泪<br>
-<br>
-如果这是最后的一页<br>
-在你离开之前<br>
-能否让我把故事重写<br>
-<br>
-想把你抱进身体里面<br>
-不敢让你看见<br>
-嘴角那颗没落下的泪<br>
-<br>
-如果这是最后的一页<br>
-在你离开之前<br>
-能否让我把故事重写<br>
-</p></div>
+	<hr class="divb">
 
-<p style="font-size : 12px; color : black">
+	<div class="discb">
 作曲：詹宇豪<br>
 作词：弹头（宋健彰）<br>
 原唱：江语晨<br>
 编曲：闫津<br>
-歌曲来源：<a href="https://youtu.be/CJqPAJUy7AM?si=7Co1Pi_PWip33ZQG">YouTube</a><br></p>
+歌曲来源：<a href="https://youtu.be/CJqPAJUy7AM">YouTube</a><br>
+	</div>
 </body>
 </html>
