@@ -188,6 +188,9 @@ a:active {
 hr.div1 {
   border-top: 2px solid #37a4b3;
 }
+hr.div2 {
+  border-top: 2px solid #000000;
+}
 hr.end1 {
   border-top: 8px double #47b4c3;
 }
