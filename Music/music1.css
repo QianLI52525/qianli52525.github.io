@@ -21,7 +21,8 @@
     width: 100%;
     color : #ffffff;
     font-size: calc(var(--base-size) * 0.75);
-    font-weight: 600;}
+    font-weight: 700;}
+}
 
 .lyricsw {
 	display: block;
