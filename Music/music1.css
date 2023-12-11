@@ -26,6 +26,10 @@
     color : #ffffff;
 	font-size: calc(var(--lyrics-size));
 	font-weight: 500;}
+
+hr.divw {
+  border-top: 2px solid #ffffff;
+}
     
 .discw {
 	display: block;
@@ -54,6 +58,10 @@
     color : #000000;
 	font-size: calc(var(--lyrics-size));
 	font-weight: 500;}
+
+hr.divb {
+  border-top: 2px solid #000000;
+}
     
 .discb {
 	display: block;
