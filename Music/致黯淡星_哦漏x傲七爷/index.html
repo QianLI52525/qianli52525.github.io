@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head> 
-    <meta charset="utf-8">
+	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>致：黯淡星 哦漏x傲七爷</title>
-    <link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/main1.css">
-    <link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/Music/music1.css">
+	<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/main1.css">
+	<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/Music/music1.css">
 </head>
 
 <style>
 body {
-      background-image: url('zadxbg2.jpeg'); 
+      background-image: url('https://qianli52525.github.io/Music/致黯淡星_哦漏x傲七爷/zadxbg2.jpeg'); 
       background-size: cover; 
       background-attachment: fixed; 
     }
@@ -21,51 +21,32 @@ body {
     
 	<br>
 	<audio controls>
-		<source src="zhiandanxing.mp3" height="20%" width="20%">
+		<source src="https://qianli52525.github.io/Music/致黯淡星_哦漏x傲七爷/zhiandanxing.mp3" height="20%" width="20%">
 	</audio>
-	<br>
+	<br><br>
         
 	<div class="subtw">歌词</div>
-    
-	<div class = "lyricsw">
-    	<p>
-    【男】<br>
-端坐在孤独星系的边际<br>
-什么能穿越光年的距离<br>
-星风偶尔穿行 没有捎来讯息<br>
-或许早应了然 这是结束的默契<br>
-【女】<br>
-千万群星的浪漫让人沉溺<br>
-偶尔有天外的微光 穿越过云际<br>
-或许拉远距离后 重逢才会有意义<br>
-但又何必设下 时间的无边裂隙<br>
-【合】<br>
-如果远渡星外 逃离引力 才能够相爱<br> 
-滑向无限时空 无人响应 寂静海<br>
-万世沧桑唯有 星辰见证 奔赴而来<br>
-跨越寰宇终抵 黯淡星外<br>
-【男】<br>
-伸出手告别老旧的足迹<br>
-相望光年外等待的星系<br>
-是否也曾拥有 触不到的回忆<br>
-远渡遥远边际 向着未知追赶去<br>
-【女】<br>
-等待是一种愚蠢的安慰剂<br>
-哪怕分秒也止不住 炽热的呼吸<br>
-不如深潜入星底 考究历史的行迹<br>
-才能够捱得住 时间的无边裂隙<br>
-【合】<br>
-如果远渡星外 逃离引力 才能够相爱<br>
-滑向无限时空 无人响应 寂静海<br>
-万世沧桑唯有 星辰见证 奔赴而来<br>
-跨越寰宇终抵 黯淡星外<br>
-【合】<br>
-那是摇曳星海 不灭不休 数光年以外<br>
-黑暗远端列队 默默见证 这意外<br>
-万世沧桑唯有 星辰见证 奔赴而来<br>
-跨越寰宇终抵 黯淡星外<br>
-		</p>
-    </div>
+	<br>
+	
+	<div id="lyrics" class="lyricsw"></div>
+	<script>
+		fetch('https://qianli52525.github.io/Music/致黯淡星_哦漏x傲七爷/lyrics.txt')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('歌词获取失败');
+			}
+			return response.text();
+		})
+		.then(htmlContent => {
+			document.getElementById('lyrics').innerHTML = htmlContent;
+		})
+		.catch(error => {
+			console.error('Error loading content:', error);
+			document.getElementById('lyrics').innerHTML = '歌词获取失败';
+		});
+	</script>
+
+	<hr class="divw">
 
 	<div class="discw">
 策划/作曲/作词：KBShinya | 编曲：安念<br>
