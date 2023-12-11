@@ -2,8 +2,7 @@
 	--base-size : calc(6vmin - 1vmax + 6px);  
 	--base-heit : calc(6vmin - 1vmax);  
 	--base-wid : calc(4vmin - 1vmax);
-	--title-bord-clr : #378b8c;
-	--cont-bord-clr : #378b8c20;
+	--lyrics-size : calc(16px + 0.15vw - 0.15vh);
 }
 
 .titlew{
@@ -25,8 +24,14 @@
 .lyricsw {
 	display: block;
     color : #ffffff;
- font-size: calc(16px + 0.1vw - 0.1vh);
+	font-size: calc(var(--lyrics-size));
 	font-weight: 500;}
+    
+.discw {
+	display: block;
+    color : #ffffff;
+	font-size: calc(var(--lyrics-size) * 0.8);
+	font-weight: 400;}
 
 .titleb{
     display: block;
@@ -47,5 +52,11 @@
 .lyricsb {
 	display: block;
     color : #000000;
-	font-size: calc(16px + 0.1vw - 0.1vh);
+	font-size: calc(var(--lyrics-size));
 	font-weight: 500;}
+    
+.discb {
+	display: block;
+    color : #000000;
+	font-size: calc(var(--lyrics-size) * 0.8);
+	font-weight: 400;}
