@@ -20,23 +20,25 @@ body {
         <span class="title1">文件夹<span>
     </div>
     
-	<div id="folders" class="title2"></div>
+    <div class="contentborder1">
+		<div id="folders" class="subtitle1"></div>
 		<script>
-		fetch('folders.html')
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('文件获取失败');
-			}
-			return response.text();
-		})
-		.then(htmlContent => {
-			document.getElementById('folders').innerHTML = htmlContent;
-		})
-		.catch(error => {
-			console.error('Error loading content:', error);
-			document.getElementById('folders').innerHTML = '文件获取失败';
-		});
-	</script>
+			fetch('folders.html')
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('文件获取失败');
+    			}
+				return response.text();
+    		})
+        	.then(htmlContent => {
+				document.getElementById('folders').innerHTML = htmlContent;
+    		})
+    		.catch(error => {
+    			console.error('Error loading content:', error);
+    			document.getElementById('folders').innerHTML = '文件获取失败';
+    		});
+    	</script>
+    </div>
 
 	<hr class="end1">
 </body>
