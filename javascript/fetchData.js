@@ -17,34 +17,12 @@ function fetchData(filePath) {
         });
 }
 
-function traverseFolder(folderPath) {
-        fetch(folderPath)
-            .then(response => response.text())
-            .then(htmlContent => {
-                document.getElementById('loadedFolder').innerHTML += htmlContent;
-                const links = htmlContent.match(/<a [^>]*href="([^"]*)"/);
-                if (links) {
-                    for (const link of links) {
-                        const match = link.match(/<a [^>]*href="([^"]*)"/);
-                        if (match) {
-                            const filePath = match[1];
-                            if (filePath.endsWith('/')) {
-                                traverseFolder(folderPath + filePath);
-                            }
-                        }
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error loading content:', error);
-                document.getElementById('loadedFolder').innerHTML += '文件获取失败';
-            });
-    }
-
 function fetchFileLinks(folderPath) {
         fetch(folderPath)
             .then(response => response.text())
             .then(htmlContent => {
+            console.log(htmlContent);
+                
                 // 创建一个临时div，用于解析HTML内容
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = htmlContent;
