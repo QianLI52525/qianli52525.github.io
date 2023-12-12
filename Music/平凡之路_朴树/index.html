@@ -28,22 +28,10 @@ body {
 	<div class="subtb">歌词</div>
 	<br>
 	
-	<div id="lyrics" class="lyricsb"></div>
+	<div id="loadedContent" class="lyricsb"></div>
+	<script src="https://qianli52525.github.io/javascript/fetchData.js"></script>
 	<script>
-		fetch('lyrics.html')
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('歌词获取失败');
-			}
-			return response.text();
-		})
-		.then(htmlContent => {
-			document.getElementById('lyrics').innerHTML = htmlContent;
-		})
-		.catch(error => {
-			console.error('Error loading content:', error);
-			document.getElementById('lyrics').innerHTML = '歌词获取失败';
-		});
+		fetchData('lyrics.html');
 	</script>
 
 	<hr class="divb">
