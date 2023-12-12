@@ -41,7 +41,7 @@ function traverseFolder(folderPath) {
             });
     }
 
-function fetchFile(folderPath) {
+function fetchFileLinks(folderPath) {
         fetch(folderPath)
             .then(response => response.text())
             .then(htmlContent => {
@@ -50,7 +50,9 @@ function fetchFile(folderPath) {
                 tempDiv.innerHTML = htmlContent;
 
                 // 提取所有<a>标签并生成文件链接
-                const fileLinks = tempDiv.querySelectorAll('a');
+                const fileLinks = Array.from(tempDiv.querySelectorAll('a'))
+                    .filter(link => !/(README|index)/i.test(link.getAttribute('href')));
+
                 const fileLinksDiv = document.getElementById('fileLinks');
 
                 // 如果有文件链接，则将它们插入到页面中
