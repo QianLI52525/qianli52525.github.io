@@ -1,4 +1,27 @@
-	<script>
+<!DOCTYPE html>
+<html>
+<head> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>文件夹</title>
+	<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/main1.css">
+</head>
+
+<style>
+body {
+      background-image: url('.jpeg'); 
+      background-size: cover; 
+      background-attachment: fixed; 
+    }
+</style>
+
+<body>
+	<div class="titleborder1">
+        <span class="title1">文件夹<span>
+    </div>
+    
+	<div id="folders" class="title2"></div>
+		<script>
 		fetch('folders.html')
 		.then(response => {
 			if (!response.ok) {
@@ -15,3 +38,6 @@
 		});
 	</script>
 
+	<hr class="end1">
+</body>
+</html>
