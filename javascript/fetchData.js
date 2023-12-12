@@ -18,15 +18,25 @@ function fetchData(filePath) {
 }
 
 function traverseFolder(folderPath) {
-    return fetch(folderPath)
-        .then(response => response.text())
-        .then(htmlContent => {
-            // 返回加载的HTML内容
-            return htmlContent;
-        })
-        .catch(error => {
-            console.error('Error loading content:', error);
-            // 返回错误消息
-            return '文件获取失败';
-        });
-}
+        fetch(folderPath)
+            .then(response => response.text())
+            .then(htmlContent => {
+                document.getElementById('loadedFolder').innerHTML += htmlContent;
+                const links = htmlContent.match(/<a [^>]*href="([^"]*)"/g);
+                if (links) {
+                    for (const link of links) {
+                        const match = link.match(/<a [^>]*href="([^"]*)"/);
+                        if (match) {
+                            const filePath = match[1];
+                            if (filePath.endsWith('/')) {
+                                traverseFolder(folderPath + filePath);
+                            }
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+                document.getElementById('loadedFolder').innerHTML += '文件获取失败';
+            });
+    }
