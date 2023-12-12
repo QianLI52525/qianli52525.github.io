@@ -1,1 +1,17 @@
+	<script>
+		fetch('folders.html')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('文件获取失败');
+			}
+			return response.text();
+		})
+		.then(htmlContent => {
+			document.getElementById('folders').innerHTML = htmlContent;
+		})
+		.catch(error => {
+			console.error('Error loading content:', error);
+			document.getElementById('folders').innerHTML = '文件获取失败';
+		});
+	</script>
 
