@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head> 
-<meta charset="utf-8"> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>中文资料库</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>中文文件夹</title>
+	<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/main1.css">
 </head>
+
 <style>
 body {
-	background-image: url("furina1.jpeg");
-	background-size: cover;
-	background-attachment: fixed; 
-}
-.musics p{
-	font:normal bold 40px "楷体";
-}
+      background-image: url('https://qianli52525.github.io/bgpic/venti5.jpeg'); 
+      background-size: cover; 
+      background-attachment: fixed; 
+    }
 </style>
-	
+
 <body>
-<h1>中文</h1>
-<div>
-<p>
-<a href="https://qianli52525.github.io/files/chi/實用文精讀筆記(五種).pdf">实用文笔记</a><br>
-<a href="https://qianli52525.github.io/files/chi/範文問答集錦 (2023).pdf">范文问答</a><br>
-</p>
-</div>
+	<div class="titleborder2">
+        <span class="title2">中文文件夹<span>
+    </div>
+    
+    <div class="contentborder1">
+		<div id="files" class="subtitle2"></div>
+		<script>
+			fetch('files.html')
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('文件获取失败');
+    			}
+				return response.text();
+    		})
+        	.then(htmlContent => {
+				document.getElementById('files').innerHTML = htmlContent;
+    		})
+    		.catch(error => {
+    			console.error('Error loading content:', error);
+    			document.getElementById('files').innerHTML = '文件获取失败';
+    		});
+    	</script>
+    </div>
+
+	<hr class="end1">
 </body>
 </html>
