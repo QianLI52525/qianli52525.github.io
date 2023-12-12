@@ -16,3 +16,17 @@ function fetchData(filePath) {
             document.getElementById('loadedContent').innerHTML ='资源获取失败';
         });
 }
+
+function traverseFolder(folderPath) {
+    return fetch(folderPath)
+        .then(response => response.text())
+        .then(htmlContent => {
+            // 返回加载的HTML内容
+            return htmlContent;
+        })
+        .catch(error => {
+            console.error('Error loading content:', error);
+            // 返回错误消息
+            return '文件获取失败';
+        });
+}
