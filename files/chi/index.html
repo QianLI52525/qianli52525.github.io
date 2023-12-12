@@ -21,24 +21,12 @@ body {
     </div>
     
     <div class="contentborder1">
-		<div id="files" class="content1"></div>
-		<script>
-			fetch('files.html')
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('文件获取失败');
-    			}
-				return response.text();
-    		})
-        	.then(htmlContent => {
-				document.getElementById('files').innerHTML = htmlContent;
-    		})
-    		.catch(error => {
-    			console.error('Error loading content:', error);
-    			document.getElementById('files').innerHTML = '文件获取失败';
-    		});
-    	</script>
-    </div>
+		<div id="loadedContent" class="content1"></div>
+		<script src="https://qianli52525.github.io/javascript/fetchData.js"></script>
+        <script>
+    		fetchData('files.html');
+		</script>
+        </div>
 
 	<hr class="end1">
 </body>
