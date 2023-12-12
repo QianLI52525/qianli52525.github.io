@@ -22,7 +22,7 @@ function traverseFolder(folderPath) {
             .then(response => response.text())
             .then(htmlContent => {
                 document.getElementById('loadedFolder').innerHTML += htmlContent;
-                const links = htmlContent.match(/<a [^>]*href="([^"]*)"/g);
+                const links = htmlContent.match(/<a [^>]*href="([^"]*)"/);
                 if (links) {
                     for (const link of links) {
                         const match = link.match(/<a [^>]*href="([^"]*)"/);
