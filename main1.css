@@ -164,8 +164,8 @@ a:active {
     display: block;
     height: auto;
     width: 100%;
-    font-size: 4.2vmin;
-    font-weight: 500;}
+    font-size: calc(var(--base-size) * 0.6);
+    font-weight: 400;}
 .contentborder1 {
     padding: 4px 6px;
     border-width: 1px;
