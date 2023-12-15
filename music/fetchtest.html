@@ -12,7 +12,7 @@
 	</form>
 	
 	<script>
-		const githubToken = 'FetchAPITest'; // 替换为你的 GitHub 访问令牌
+		const githubToken = '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'; // 替换为你的 GitHub 访问令牌
 		
 		function uploadFile() {
 			const formData = new FormData();
@@ -25,7 +25,7 @@
 				method: "PUT",
 				body: formData,
 				headers: {
-					'Authorization': `Bearer FetchAPITest`, // 添加 GitHub 访问令牌
+					'Authorization': `Bearer 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`, // 添加 GitHub 访问令牌
 				},
 			})
 			.then(response => response.json())
