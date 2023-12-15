@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head> 
+	<title>FetchFilePutTesting</title>
+</head>
+
+<body>
+	<form id="fileUploadForm" enctype="multipart/form-data">
+		<label for="fileInput">Choose a file:</label>
+		<input type="file" id="fileInput" name="file" accept=".pdf, .doc, .docx, .txt">
+		<button type="button" onclick="uploadFile()">Upload</button>
+	</form>
+	
+	<script>
+		const githubToken = 'FetchAPITest'; // 替换为你的 GitHub 访问令牌
+		
+		function uploadFile() {
+			const formData = new FormData();
+			const fileInput = document.getElementById('fileInput');
+	
+			formData.append("username", "qianli527");
+			formData.append("avatar", fileInput.files[0]);
+	
+			fetch("https://qianli52525.github.io/music/", {
+				method: "PUT",
+				body: formData,
+				headers: {
+					'Authorization': `Bearer FetchAPITest`, // 添加 GitHub 访问令牌
+				},
+			})
+			.then(response => response.json())
+			.then(result => {
+				console.log("Success:", result);
+			})
+			.catch(error => {
+				console.error("Error:", error);
+			});
+		}
+	</script>
+</body>
+</html>
