@@ -179,11 +179,10 @@ a:active {
     border-color: var(--cont-bord-clr);}
 .content1 {
 	display: block;
-	padding: 0px 0px;
-	border-width: 0.1vw;
-	border-color: #FFFFFF10;
-	font-size: calc(var(--base-size) * 0.75);
-	font-weight: 700;}
+    height: auto;
+    width: 100%;
+    font-size: calc(var(--base-size) * 0.68);
+    font-weight: 700;}
 
 hr.div1 {
   border-top: 2px solid #37a4b3;
