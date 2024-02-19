@@ -182,7 +182,6 @@ a:active {
 	padding: 0px 0px;
 	border-width: 0.1vw;
 	border-color: #FFFFFF10;
-	width: 9vw
 	font-size: calc(var(--base-size) * 0.75);
 	font-weight: 700;}
 
