@@ -158,7 +158,7 @@ a:active {
     display: block;
     height: auto;
     width: 100%;
-    font-size: calc(var(--base-size) * 0.86);
+    font-size: calc(var(--base-size) * 0.73);
     font-weight: 600;}
 .subtitle2 {
     display: block;
@@ -183,7 +183,7 @@ a:active {
 	border-width: 0.1vw;
 	border-color: #FFFFFF10;
 	width: 9vw
-	font-size: calc(var(--base-size) * 0.7);
+	font-size: calc(var(--base-size) * 0.75);
 	font-weight: 700;}
 
 hr.div1 {
