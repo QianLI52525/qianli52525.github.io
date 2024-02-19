@@ -181,7 +181,7 @@ a:active {
 	display: block;
     height: auto;
     width: 100%;
-    font-size: calc(var(--base-size) * 0.38 + 2vw - 1vh);
+    font-size: calc(var(--base-size) * 0.38 + 2vh - 1vw);
     font-weight: 700;}
 
 hr.div1 {
