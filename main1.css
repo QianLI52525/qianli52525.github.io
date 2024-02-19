@@ -136,13 +136,13 @@ a:active {
     display: block;
     height: auto;
     width: 100%;
-    font-size: calc(var(--base-size) * 1.15);
+    font-size: calc(var(--base-size) * 1);
     font-weight: 600;}
 .subtitle1 {
     display: block;
     height: auto;
     width: 100%;
-    font-size: calc(var(--base-size) * 0.7);
+    font-size: calc(var(--base-size) * 0.65);
     font-weight: 400;}
 .titleborder2 {
     padding: 8px 12px;
@@ -158,14 +158,14 @@ a:active {
     display: block;
     height: auto;
     width: 100%;
-    font-size: calc(var(--base-size) * 0.95);
+    font-size: calc(var(--base-size) * 0.86);
     font-weight: 600;}
 .subtitle2 {
     display: block;
     height: auto;
     width: 100%;
     text-align: right;
-    font-size: calc(var(--base-size) * 0.6);
+    font-size: calc(var(--base-size) * 0.5);
     font-weight: 400;}
 .contentborder1 {
     padding: 4px 6px;
