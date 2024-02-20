@@ -23,7 +23,8 @@ video {
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: 0.5px rgb(0, 0, 0);}
 .main {
-    width: calc(48vw + 10vw);}
+    width: calc(100vmin);
+}
 .title {
     background-color: #ffffff70;
     border-style: solid;
@@ -131,19 +132,22 @@ a:active {
     border-radius: 100px;
     background-color: #ffffff00;
     border-style: double;
-    border-color: var(--title-bord-clr);}
+    border-color: var(--title-bord-clr);
+}
 .title1 {
     display: block;
     height: auto;
     width: 100%;
     font-size: calc(var(--base-size) * 1);
-    font-weight: 600;}
+    font-weight: 600;
+}
 .subtitle1 {
     display: block;
     height: auto;
     width: 100%;
     font-size: calc(var(--base-size) * 0.65);
-    font-weight: 400;}
+    font-weight: 400;
+}
 .titleborder2 {
     padding: 8px 12px;
     border-width: 2px;
@@ -153,20 +157,23 @@ a:active {
     border-radius: 100px;
     background-color: #ffffff00;
     border-style: dashed;
-    border-color: var(--title-bord-clr);}
+    border-color: var(--title-bord-clr);
+}
 .title2 {
     display: block;
     height: auto;
     width: 100%;
     font-size: calc(var(--base-size) * 0.73);
-    font-weight: 600;}
+    font-weight: 600;
+}
 .subtitle2 {
     display: block;
     height: auto;
     width: 100%;
     text-align: right;
     font-size: calc(var(--base-size) * 0.5);
-    font-weight: 400;}
+    font-weight: 400;
+}
 .contentborder1 {
     padding: 4px 6px;
     border-width: 1px;
@@ -176,18 +183,19 @@ a:active {
     border-radius: 0.5vmax;
     background-color: #ffffff00;
     border-style: dotted;
-    border-color: var(--cont-bord-clr);}
+    border-color: var(--cont-bord-clr);
+}
 .content1 {
 	display: block;
     height: auto;
     width: 100%;
     font-size: calc(var(--base-size) * 0.5 - 0.8vw);
-    font-weight: 700;}
+    font-weight: 700;
+}
 
 hr.div1 {
   border-top: 2px solid #37a4b3;
 }
-
 hr.end1 {
   border-top: 8px double #47b4c3;
 }
