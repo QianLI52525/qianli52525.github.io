@@ -23,7 +23,7 @@ video {
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: 0.5px rgb(0, 0, 0);}
 .main {
-    width: 100vmin;
+    width: 99vmin;
 }
 .title {
     background-color: #ffffff70;
