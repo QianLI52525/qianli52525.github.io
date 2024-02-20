@@ -24,7 +24,9 @@ video {
     -webkit-text-stroke: 0.5px rgb(0, 0, 0);}
     
 .main {
-    width: 96vmin;
+  margin: 0px;
+  padding: 0px;
+  width: 96vmin;
 }
 
 .title {
