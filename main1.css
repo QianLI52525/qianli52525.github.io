@@ -6,9 +6,8 @@
   --cont-bord-clr : #378b8c20;
 }
 
-video {
+.bgpic {
     position: fixed;
-  right: 0;
     top: 0;
     left: 0;
     width: 100vw;
