@@ -10,9 +10,10 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: auto;
     height: 100vh;
-    z-index: -1;}
+    z-index: -1;
+}
 .colorful {
     font-size: 2vw;
     background-image: -webkit-gradient(linear, left top, right bottom, from(blue), to(yellow));
