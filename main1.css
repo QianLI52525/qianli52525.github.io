@@ -24,6 +24,7 @@ video {
     -webkit-text-stroke: 0.5px rgb(0, 0, 0);}
     
 .main {
+  float: right;
   margin: 0px;
   padding: 0px;
   width: 96vmin;
