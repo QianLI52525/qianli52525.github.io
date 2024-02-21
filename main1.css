@@ -7,7 +7,7 @@
 }
 
 .bgpic {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
@@ -23,7 +23,7 @@
     -webkit-text-stroke: 0.5px rgb(0, 0, 0);}
     
 .main {
-  position: relative;
+  position: absolute;
   right: 2vmin;
   margin: 0px;
   padding: 0px;
