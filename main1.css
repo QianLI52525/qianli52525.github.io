@@ -6,6 +6,14 @@
   --cont-bord-clr : #378b8c20;
 }
 
+.countdown {
+  width: 80vw;
+  height: 10vw;
+  margin: 0px auto;
+  display: block;
+  border: 0px;
+}
+
 .bgpic {
     position: fixed;
     top: 0;
