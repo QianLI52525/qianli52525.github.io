@@ -70,7 +70,17 @@ body {
 
 		<div class="contentborder1" style="border-radius:100px">
 			<span class="subtitle2">DSE公民卷一(16/4)</span>
-			<center><iframe id="online-alarm-kur-iframe" src="https://embed-countdown.onlinealarmkur.com/zh-cn/#2024-04-16T08:30:00@Asia%2FHong_Kong" style="width: 50%; height:100; margin: 0px; display: block; border: 0px;"></iframe></center>
+			
+			<script>
+				var time = new Date().getTime();
+				if (time < 1713141000000){
+					document.write("<center><iframe id=\"online-alarm-kur-iframe\" src=\"https://embed-countdown.onlinealarmkur.com/zh-cn/#2024-04-16T08:30:00@Asia%2FHong_Kong\" style=\"width: 50%; height: 100; margin: 0px; display: block; border: 0px;\"></iframe></center>");
+				} else if (time > 1713234600000) {
+					document.write("<span class=\"subtitle2\">已结束</span>")
+				} else {
+					document.write("<span class=\"subtitle2\">进行中</span>")
+				}
+			</script>
 		</div>
 
 		<div class="contentborder1" style="border-width: 0; height: 170">
