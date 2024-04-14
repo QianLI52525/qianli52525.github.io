@@ -1,4 +1,4 @@
-function countStartStopSwitch(t1, t2){
+function countStartStopSwitch_half(t1, t2){
     var timeStart = new Date(t1).getTime();
     var timeStop = new Date(t2).getTime();
     var timeNow = new Date().getTime();
