@@ -18,7 +18,7 @@ function displayBgpic(imgsrc) {
 }
 
 let logTimeoutId;
-let imgSelected = "https://qianli52525.github.io/bgpic/venti6.jpeg";
+let imgSelected = "https://qianli52525.github.io/bgpic/defaultBgpic.jpeg";
 
 function updateDisplay() {
 	var w = document.documentElement.clientWidth;
@@ -26,9 +26,9 @@ function updateDisplay() {
 	var whratio = w / h;
 	
 	if (imgwhratio >= whratio){
-		document.getElementById("result").innerHTML = "<img class=\"bgpich\" src=\"" + img.src +  "\">";
+		document.getElementById("bgpic").innerHTML = "<img class=\"bgpich\" src=\"" + img.src +  "\">";
 	} else {
-		document.getElementById("result").innerHTML = "<img class=\"bgpicw\" src=\"" + img.src +  "\">";
+		document.getElementById("bgpic").innerHTML = "<img class=\"bgpicw\" src=\"" + img.src +  "\">";
 	} 
 	
 	clearTimeout(logTimeoutId);
