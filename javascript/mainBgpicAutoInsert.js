@@ -18,6 +18,7 @@ function displayBgpic(imgsrc) {
 }
 
 let logTimeoutId;
+let imgSelected = "https://qianli52525.github.io/bgpic/venti6.jpeg";
 
 function updateDisplay() {
 	var w = document.documentElement.clientWidth;
@@ -36,8 +37,10 @@ function updateDisplay() {
 	}, 200);
 }
 
-displayBgpic("https://qianli52525.github.io/bgpic/venti6.jpeg");
+displayBgpic(imgSelected);
 
 window.addEventListener("resize", function() {
 	updateDisplay();
 });
+
+
