@@ -14,7 +14,7 @@
   border: 0px;
 }
 
-.bgpic {
+.bgpich {
     position: fixed;
     top: 0;
     left: 0;
@@ -22,6 +22,16 @@
     height: 100vh;
     z-index: -1;
 }
+
+.bgpicw {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    z-index: -1;
+}
+
 .colorful {
     font-size: 2vw;
     background-image: -webkit-gradient(linear, left top, right bottom, from(blue), to(yellow));
