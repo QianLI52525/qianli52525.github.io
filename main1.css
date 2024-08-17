@@ -13,6 +13,14 @@
   display: block;
   border: 0px;
 }
+.bgpic {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100vh;
+    z-index: -1;
+}
 
 .bgpich {
     position: fixed;
