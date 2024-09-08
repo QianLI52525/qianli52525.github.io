@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>在线计时器</title>
+<link rel="icon" href="https://qianli52525.github.io/main.ico">
+<link rel="stylesheet" type="text/css" href="https://qianli52525.github.io/main1.css">
+<script src="mainBgpicAutoInsert.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  .timer-container {
+    text-align: center;
+    max-width: 90%; /* 最大宽度为视口宽度的90% */
+    max-height: 90%; /* 最大高度为视口高度的90% */
+  }
+  .timer {
+    font-size: clamp(2rem, 4vw, 48px); /* 字体大小在2rem和48px之间平滑变化 */
+    margin-bottom: 20px;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .buttons div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: clamp(1rem, 2vw, 16px); /* 字体大小在1rem和16px之间平滑变化 */
+    cursor: pointer;
+    text-align: center;
+  }
+  input {
+    padding: 8px;
+    font-size: clamp(1rem, 2vw, 16px); /* 字体大小在1rem和16px之间平滑变化 */
+    margin-right: 10px;
+    text-align: center;
+  }
+  #message {
+    margin-top: 20px;
+    font-size: clamp(1rem, 2vw, 16px); /* 字体大小在1rem和16px之间平滑变化 */
+    color: red; /* 可以根据需要更改消息颜色 */
+  }
+</style>
+</head>
+<body>
+
+<div class="timer-container">
+ <div id="bgpic"></div>
+  <div class="timer" id="timer">00:00:00</div>
+  <div class="buttons">
+    <div>
+      <button onclick="resetTimer()">重置</button>
+      <button id="pauseButton" onclick="pauseTimer()">暂停</button>
+    </div>
+    <div>
+      <button onclick="addTime(1)">+1分钟</button>
+      <button onclick="addTime(5)">+5分钟</button>
+      <button onclick="addTime(10)">+10分钟</button>
+      <button onclick="addTime(30)">+30分钟</button>
+      <button onclick="addTime(60)">+60分钟</button>
+    </div>
+    <div>
+      <button onclick="subtractTime(1)">-1分钟</button>
+      <button onclick="subtractTime(5)">-5分钟</button>
+      <button onclick="subtractTime(10)">-10分钟</button>
+      <button onclick="subtractTime(30)">-30分钟</button>
+      <button onclick="subtractTime(60)">-60分钟</button>
+    </div>
+  </div>
+  <div style="margin-top: 20px;">
+    <input type="number" id="customMinutes" placeholder="输入分钟数" min="1">
+    <button onclick="addCustomTime()">添加自定义时间</button>
+    <button onclick="subtractCustomTime()">减少自定义时间</button>
+  </div>
+  <div id="message"></div>
+</div>
+
+<script>
+  let seconds = 0; // 倒计时初始秒数
+  let intervalId = null;
+  let isPaused = false; // 跟踪计时器是否暂停
+
+  function startTimer() {
+    intervalId = setInterval(() => {
+      if (!isPaused) {
+        seconds--;
+        if (seconds < 0) {
+          clearInterval(intervalId);
+          intervalId = null;
+          document.getElementById('message').textContent = '时间到!';
+          return;
+        }
+        displayTime();
+      }
+    }, 1000);
+  }
+
+  function displayTime() {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    document.getElementById('timer').textContent = 
+      `${pad(hours)}:${pad(minutes)}:${pad(secs)}`;
+  }
+
+  function pad(number) {
+    return number < 10 ? '0' + number : number;
+  }
+
+  function resetTimer() {
+    clearInterval(intervalId);
+    intervalId = null;
+    seconds = 0;
+    displayTime();
+    document.getElementById('message').textContent = '';
+    isPaused = false; // 确保重置时计时器不是暂停状态
+    document.getElementById('pauseButton').textContent = '暂停';
+  }
+
+  function pauseTimer() {
+    if (isPaused) {
+      startTimer();
+      isPaused = false;
+      document.getElementById('pauseButton').textContent = '暂停';
+    } else {
+      clearInterval(intervalId);
+      intervalId = null;
+      isPaused = true;
+      document.getElementById('pauseButton').textContent = '开始';
+    }
+  }
+
+  function addTime(minutesToAdd) {
+    seconds += minutesToAdd * 60;
+    displayTime();
+    if (!intervalId) {
+      startTimer();
+    }
+  }
+
+  function subtractTime(minutesToSubtract) {
+    const totalSeconds = seconds - minutesToSubtract * 60;
+    if (totalSeconds < 0) {
+      document.getElementById('message').textContent = "时间不足，无法减少！";
+      return;
+    }
+    seconds = totalSeconds;
+    displayTime();
+    if (!intervalId) {
+      startTimer();
+    }
+  }
+
+  function addCustomTime() {
+    const customMinutes = document.getElementById('customMinutes').value;
+    const minutesToAdd = parseInt(customMinutes);
+    if (!isNaN(minutesToAdd) && minutesToAdd > 0) {
+      addTime(minutesToAdd);
+      document.getElementById('message').textContent = `已添加 ${minutesToAdd} 分钟`;
+    } else {
+      document.getElementById('message').textContent = "请输入有效的分钟数！";
+    }
+  }
+
+  function subtractCustomTime() {
+    const customMinutes = document.getElementById('customMinutes').value;
+    const minutesToSubtract = parseInt(customMinutes);
+    if (!isNaN(minutesToSubtract) && minutesToSubtract > 0) {
+      if (seconds >= minutesToSubtract * 60) {
+        subtractTime(minutesToSubtract);
+        document.getElementById('message').textContent = `已减少 ${minutesToSubtract} 分钟`;
+      } else {
+        document.getElementById('message').textContent = "时间不足，无法减少！";
+      }
+    } else {
+      document.getElementById('message').textContent = "请输入有效的分钟数！";
+    }
+  }
+</script>
+
+</body>
+
+</body>
+</html>
