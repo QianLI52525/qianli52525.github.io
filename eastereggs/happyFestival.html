@@ -1,13 +1,53 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>节日快乐！</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* 背景颜色 */
+            font-family: 'Arial', sans-serif; /* 字体样式 */
+        }
+        button {
+            padding: 10px 20px; /* 按钮内边距 */
+            font-size: 16px; /* 文字大小 */
+            color: #fff; /* 文字颜色 */
+            background-color: #4CAF50; /* 按钮背景颜色 */
+            border: none; /* 边框 */
+            border-radius: 5px; /* 边框圆角 */
+            cursor: pointer; /* 鼠标指针样式 */
+            transition: background-color 0.3s; /* 过渡效果 */
+        }
+        button:hover {
+            background-color: #45a049; /* 鼠标悬停时按钮背景颜色 */
+        }
+        audio {
+            display: none; /* 隐藏音频元素 */
+        }
+    </style>
 </head>
+    
 <body>
+    <button onclick="playMusic()">节日快乐！！</button>
+    <audio id="audioPlayer" loop>
+        <source src="festivalSong.m4a" type="audio/mpeg">
+        您的浏览器不支持音频元素。
+    </audio>
+
     <script>
-        window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        var audio = document.getElementById('audioPlayer');
+        audio.volume = 0.5; // 设置音量，可以根据需要调整
+
+        function playMusic() {
+            audio.play();
+        }
     </script>
 </body>
 </html>
