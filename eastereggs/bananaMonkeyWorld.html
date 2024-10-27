@@ -25,7 +25,6 @@
             border-radius: 5px; /* 边框圆角 */
             cursor: pointer; /* 鼠标指针样式 */
             transition: background-color 0.3s; /* 过渡效果 */
-            position: relative; /* 设置相对定位 */
             z-index: 2; /* 设置按钮的z-index */
         }
         button:hover {
@@ -36,17 +35,17 @@
         }
         #content {
             position: absolute; /* 设置绝对定位 */
-            top: 120%; /* 位于按钮下方 */
+            top: 150%; /* 位于按钮下方 */
             left: 50%; /* 水平居中 */
             transform: translateX(-50%); /* 修正偏移 */
             width: 80%; /* 设置宽度 */
-            z-index: 1; /* 设置内容的z-index */
             background-color: #fff; /* 背景颜色 */
             padding: 20px; /* 内边距 */
             border-radius: 5px; /* 边框圆角 */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
             text-align: center; /* 文本居中 */
-            color: #333; /* 设置文本颜色为深色，确保可见 */
+            color: #333; /* 设置文本颜色 */
+            display: none; /* 默认不显示，点击按钮后显示 */
         }
         p {
             margin: 0; /* 移除段落的外边距 */
@@ -60,7 +59,9 @@
         <source src="bananaMonkey.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="content"></div>
+    <div id="content">
+        <!-- 默认为空，点击按钮后添加内容 -->
+    </div>
 
     <script>
         var audio = document.getElementById('audioPlayer');
@@ -76,9 +77,8 @@
 🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
 `;
             var contentDiv = document.getElementById('content');
-            var newParagraph = document.createElement('p');
-            newParagraph.innerHTML = songContent;
-            contentDiv.appendChild(newParagraph);
+            contentDiv.innerHTML = songContent; // 设置内容
+            contentDiv.style.display = 'block'; // 显示内容
 
             // 尝试播放音乐，如果失败则不执行任何操作
             try {
