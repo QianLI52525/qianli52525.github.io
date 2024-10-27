@@ -35,12 +35,12 @@
 </head>
     
 <body>
+    <script src="https://qianli52525.github.io/javascript/fetchData.js"></script>
     <button onclick="playMusic()">进入全新的世界</button>
     <audio id="audioPlayer" loop>
         <source src="festivalSong.m4a" type="audio/mpeg">
-        <script src="https://qianli52525.github.io/javascript/fetchData.js"></script>
         <script>
-            fetchData('bananaMonkey.text');
+            fetchData('bananaMonkey.html');
         </script>
     </audio>
 
@@ -50,7 +50,7 @@
 
         function playMusic() {
             audio.play();
-            fetchData('bananaMonkey.text');
+            fetchData('bananaMonkey.html');
         }
     </script>
 </body>
