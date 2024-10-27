@@ -2,74 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>欢迎来到……全新的世界！！！！</title>
+    <title>欢迎来到全新的世界</title>
     <style>
         body, html {
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0; /* 背景颜色 */
-            font-family: 'Arial', sans-serif; /* 字体样式 */
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: start;
             align-items: center;
-            overflow-y: auto; /* 允许滚动 */
+            overflow-y: auto;
         }
         #buttonContainer {
-            position: fixed; /* 固定定位 */
-            top: 10px; /* 距离顶部10px */
-            left: 50%; /* 水平居中 */
-            transform: translateX(-50%); /* 修正偏移 */
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
         button {
-            padding: 10px 20px; /* 按钮内边距 */
-            font-size: 16px; /* 文字大小 */
-            color: #fff; /* 文字颜色 */
-            background-color: #4CAF50; /* 按钮背景颜色 */
-            border: none; /* 边框 */
-            border-radius: 5px; /* 边框圆角 */
-            cursor: pointer; /* 鼠标指针样式 */
-            transition: background-color 0.3s; /* 过渡效果 */
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #45a049; /* 鼠标悬停时按钮背景颜色 */
+            background-color: #45a049;
         }
         #textContainer {
-            width: 100%; /* 占满整个屏幕宽度 */
-            max-width: 600px; /* 最大宽度，可以根据需要调整 */
-            text-align: center; /* 文本居中 */
-            margin-top: 50px; /* 与按钮保持一定距离 */
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 50px;
         }
         p {
             margin: 0;
-            margin-bottom: 10px; /* 段落之间的间距 */
+            margin-bottom: 10px;
         }
     </style>
 </head>
     
 <body>
     <div id="buttonContainer">
-        <button onclick="addText()">进入全新的世界</button>
+        <button onclick="addTextAndPlayMusic()">进入全新的世界</button>
     </div>
     <div id="textContainer"></div>
+    <audio id="audioPlayer" loop>
+        <source src="bananaMonkey.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <script>
-        function addText() {
+        var audio = document.getElementById('audioPlayer');
+
+        function addTextAndPlayMusic() {
             var textContainer = document.getElementById('textContainer');
             var songContent = `
-🎵ᐠ( ᑒ )ᐟ🐒摆满香蕉的小岛香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴的爱巢香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒吃完香蕉就睡觉香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒摆满香蕉的小岛蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴的爱巢蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒吃完香蕉就睡觉蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
 `;
             var newParagraph = document.createElement('p');
             newParagraph.innerHTML = songContent;
             textContainer.appendChild(newParagraph);
+
+            // 播放音乐
+            audio.play();
         }
     </script>
 </body>
