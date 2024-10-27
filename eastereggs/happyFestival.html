@@ -37,17 +37,44 @@
 <body>
     <button onclick="playMusic()">进入全新的世界</button>
     <audio id="audioPlayer" loop>
-        <source src="festivalSong.m4a" type="audio/mpeg">
+        <source src="bananaMonkey.mp3" type="audio/mpeg">
     </audio>
 
-    <script src="https://qianli52525.github.io/javascript/fetchData.js"></script> 
     <script>
         var audio = document.getElementById('audioPlayer');
         audio.volume = 0.5; // 设置音量，可以根据需要调整
 
         function playMusic() {
-            audio.play();
-            fetchData('bananaMonkey.html');
+            var songContent = `
+🎵ᐠ( ᑒ )ᐟ🐒摆满香蕉的小岛香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴的爱巢香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒吃完香蕉就睡觉香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒摆满香蕉的小岛香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴的爱巢香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒吃完香蕉就睡觉香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒摆满香蕉的小岛香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴的爱巢香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒吃完香蕉就睡觉香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶
+`;
+            var paragraph = document.createElement('p');
+            paragraph.innerHTML = songContent;
+            document.body.appendChild(paragraph);
+
+            // 尝试播放音乐，如果失败则不执行任何操作
+            try {
+                audio.play();
+            } catch (e) {
+                console.error('Failed to play music:', e);
+            }
         }
     </script>
 </body>
