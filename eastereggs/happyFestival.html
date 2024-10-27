@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>欢迎来到……全新的世界！！！！</title>
+    <title>欢迎来到全新的世界！！！！</title>
     <style>
         body, html {
             height: 100%;
@@ -35,15 +35,12 @@
 </head>
     
 <body>
-    <script src="https://qianli52525.github.io/javascript/fetchData.js"></script>
     <button onclick="playMusic()">进入全新的世界</button>
     <audio id="audioPlayer" loop>
         <source src="festivalSong.m4a" type="audio/mpeg">
-        <script>
-            fetchData('bananaMonkey.html');
-        </script>
     </audio>
 
+    <script src="https://qianli52525.github.io/javascript/fetchData.js"></script> 
     <script>
         var audio = document.getElementById('audioPlayer');
         audio.volume = 0.5; // 设置音量，可以根据需要调整
