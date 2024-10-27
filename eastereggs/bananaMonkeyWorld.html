@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>欢迎来到全新的世界！！！！</title>
+    <title>欢迎来到……全新的世界！！！！</title>
     <style>
         body, html {
             height: 100%;
@@ -14,6 +14,7 @@
             align-items: center;
             background-color: #f0f0f0; /* 背景颜色 */
             font-family: 'Arial', sans-serif; /* 字体样式 */
+            position: relative; /* 设置相对定位 */
         }
         button {
             padding: 10px 20px; /* 按钮内边距 */
@@ -24,6 +25,8 @@
             border-radius: 5px; /* 边框圆角 */
             cursor: pointer; /* 鼠标指针样式 */
             transition: background-color 0.3s; /* 过渡效果 */
+            position: relative; /* 设置相对定位 */
+            z-index: 2; /* 设置按钮的z-index */
         }
         button:hover {
             background-color: #45a049; /* 鼠标悬停时按钮背景颜色 */
@@ -31,14 +34,32 @@
         audio {
             display: none; /* 隐藏音频元素 */
         }
+        #content {
+            position: absolute; /* 设置绝对定位 */
+            top: 120%; /* 位于按钮下方 */
+            left: 50%; /* 水平居中 */
+            transform: translateX(-50%); /* 修正偏移 */
+            width: 80%; /* 设置宽度 */
+            z-index: 1; /* 设置内容的z-index */
+            background-color: #fff; /* 背景颜色 */
+            padding: 20px; /* 内边距 */
+            border-radius: 5px; /* 边框圆角 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            text-align: center; /* 文本居中 */
+        }
+        p {
+            margin: 0; /* 移除段落的外边距 */
+        }
     </style>
 </head>
     
 <body>
     <button onclick="playMusic()">进入全新的世界</button>
     <audio id="audioPlayer" loop>
-        <source src="bananaMonkey.mp3" type="audio/mpeg">
+        <source src="festivalSong.m4a" type="audio/mpeg">
     </audio>
+
+    <div id="content"></div>
 
     <script>
         var audio = document.getElementById('audioPlayer');
@@ -52,22 +73,11 @@
 🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
 🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
 🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒摆满香蕉的小岛香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴的爱巢香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒吃完香蕉就睡觉香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒摆满香蕉的小岛香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴的爱巢香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒吃完香蕉就睡觉香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
-🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼香蕉蕉🍌ᐠ( ᑒ )ᐟ🎶
 `;
-            var paragraph = document.createElement('p');
-            paragraph.innerHTML = songContent;
-            document.body.appendChild(paragraph);
+            var contentDiv = document.getElementById('content');
+            var newParagraph = document.createElement('p');
+            newParagraph.innerHTML = songContent;
+            contentDiv.appendChild(newParagraph);
 
             // 尝试播放音乐，如果失败则不执行任何操作
             try {
