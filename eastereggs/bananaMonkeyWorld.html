@@ -14,8 +14,15 @@
             font-family: 'Arial', sans-serif; /* 字体样式 */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: start;
             align-items: center;
+            overflow-y: auto; /* 允许滚动 */
+        }
+        #buttonContainer {
+            position: fixed; /* 固定定位 */
+            top: 10px; /* 距离顶部10px */
+            left: 50%; /* 水平居中 */
+            transform: translateX(-50%); /* 修正偏移 */
         }
         button {
             padding: 10px 20px; /* 按钮内边距 */
@@ -26,7 +33,6 @@
             border-radius: 5px; /* 边框圆角 */
             cursor: pointer; /* 鼠标指针样式 */
             transition: background-color 0.3s; /* 过渡效果 */
-            margin-bottom: 20px; /* 与文本内容的间距 */
         }
         button:hover {
             background-color: #45a049; /* 鼠标悬停时按钮背景颜色 */
@@ -35,6 +41,7 @@
             width: 100%; /* 占满整个屏幕宽度 */
             max-width: 600px; /* 最大宽度，可以根据需要调整 */
             text-align: center; /* 文本居中 */
+            margin-top: 50px; /* 与按钮保持一定距离 */
         }
         p {
             margin: 0;
@@ -44,7 +51,9 @@
 </head>
     
 <body>
-    <button onclick="addText()">进入全新的世界</button>
+    <div id="buttonContainer">
+        <button onclick="addText()">进入全新的世界</button>
+    </div>
     <div id="textContainer"></div>
 
     <script>
