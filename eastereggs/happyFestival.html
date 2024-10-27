@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>节日快乐！</title>
+    <title>欢迎来到……全新的世界！！！！</title>
     <style>
         body, html {
             height: 100%;
@@ -35,10 +35,13 @@
 </head>
     
 <body>
-    <button onclick="playMusic()">节日快乐！！</button>
+    <button onclick="playMusic()">进入全新的世界</button>
     <audio id="audioPlayer" loop>
         <source src="festivalSong.m4a" type="audio/mpeg">
-        您的浏览器不支持音频元素。
+        <script src="https://qianli52525.github.io/javascript/fetchData.js"></script>
+        <script>
+            fetchData('bananaMonkey.text');
+        </script>
     </audio>
 
     <script>
@@ -47,6 +50,7 @@
 
         function playMusic() {
             audio.play();
+            fetchData('bananaMonkey.text');
         }
     </script>
 </body>
