@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your OSCE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        #history {
+            margin-top: 20px;
+            font-size: 1em;
+        }
+        #history li {
+            margin: 5px 0;
+        }
+        #timer {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your OSCE</h1>
+    <button id="randomButton">Generate Random OSCE</button>
+    <div id="result"></div>
+    <h2>Previous OSCEs</h2>
+    <ul id="history"></ul>
+    <div id="timer"></div>
+
+    <script>
+        const items = [
+            "Respiratory+Inspection",
+            "Respiratory+Palpation",
+            "Respiratory+Percussion",
+            "Respiratory+Ascultation",
+            "Cardiovascular+Inspection+Palpation",
+            "Cardiovascular+Auscultation",
+            "Pulse oximetry",
+            "Peak flow meter",
+            "ECG",
+            "Urine dipstick"
+        ];
+
+        const historyList = document.getElementById('history');
+        const resultDiv = document.getElementById('result');
+        const timerDiv = document.getElementById('timer');
+        let timerInterval = null; // 用于跟踪当前的计时器
+
+        document.getElementById('randomButton').addEventListener('click', () => {
+            // 如果已有计时器在运行，先停止它
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                timerDiv.innerText = ""; // 清空计时器显示
+            }
+
+            const randomIndex = Math.floor(Math.random() * items.length);
+            let result = items[randomIndex];
+
+            if (result.includes("Respiratory") || result.includes("Cardiovascular")) {
+                if (Math.random() < 0.5) {
+                    result += "+GE";
+                }
+            }
+
+            // 显示当前结果
+            resultDiv.innerText = `Your OSCE is: ${result}`;
+
+            // 添加到历史记录
+            const listItem = document.createElement('li');
+            listItem.innerText = result;
+            historyList.appendChild(listItem);
+
+            // 启动新的计时器
+            startTimer(300); // 300秒 = 5分钟
+        });
+
+        function startTimer(duration) {
+            let timer = duration;
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                timerDiv.innerText = `Time remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    timerDiv.innerText = "Time's up!";
+                    playSound();
+                }
+            }, 1000);
+        }
+
+        function playSound() {
+            const sound = new Audio("C:\Users\Zinca\Downloads\Beeeeep.mp3");
+            sound.play();
+        }
+    </script>
+</body>
+</html>
