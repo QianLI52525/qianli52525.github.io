@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>平凡之路 朴树</title>
+	<link rel="stylesheet" type="text/css" href="/maincss.css">
+	<link rel="stylesheet" type="text/css" href="/music/music1.css">
+</head>
+
+<style>
+body {
+      background-image: url('pfzlbg1.jpeg'); 
+      background-size: cover; 
+      background-attachment: fixed; 
+    }
+</style>
+
+<body>
+	<div class="titleb">平凡之路 朴树</div>
+    
+	<br>
+	<audio controls>
+		<source src="pingfanzhilu.mp3" height="20%" width="20%">
+	</audio>
+	<br><br>
+        
+	<div class="subtb">歌词</div>
+	<br>
+	
+	<div id="loadedContent" class="lyricsb"></div>
+	<script src="/javascript/fetchData.js"></script>
+	<script>
+		fetchData('lyrics.html');
+	</script>
+
+	<hr class="divb">
+
+	<div class="discb">
+作詞：韓寒 朴樹<br>
+作曲：朴樹<br>
+編曲：朴樹<br>
+歌曲来源：<a href="https://youtu.be/NjTT5_RSkw4">YouTube</a><br>
+	</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎来到全新的世界</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            overflow-y: auto;
+        }
+        #buttonContainer {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #textContainer {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        p {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+    
+<body>
+    <div id="buttonContainer">
+        <button onclick="addTextAndPlayMusic()">进入全新的世界</button>
+    </div>
+    <div id="textContainer"></div>
+    <audio id="audioPlayer" loop>
+        <source src="bananaMonkey.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        var audio = document.getElementById('audioPlayer');
+
+        function addTextAndPlayMusic() {
+            var textContainer = document.getElementById('textContainer');
+            var songContent = `
+🎵ᐠ( ᑒ )ᐟ🐒摆满香蕉的小岛蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴的爱巢蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒吃完香蕉就睡觉蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒快快乐乐没烦恼蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒睡蕉小猴真是好蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+🎵ᐠ( ᑒ )ᐟ🐒幸福美满没烦恼蕉蕉🍌ᐠ( ᑒ )ᐟ🎶<br>
+`;
+            var newParagraph = document.createElement('p');
+            newParagraph.innerHTML = songContent;
+            textContainer.appendChild(newParagraph);
+
+            // 播放音乐
+            audio.play();
+        }
+    </script>
+</body>
+</html>

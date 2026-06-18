@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head> 
+	<meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>星辰音乐库</title>
+        <link rel="icon" href="main.ico">
+	<link rel="stylesheet" type="text/css" href="/maincss.css">
+	<link rel="stylesheet" type="text/css" href="/music/music1.css">
+</head>
+<style>
+body {
+	background-image: url("/bgpic/furina2.jpeg");
+	background-size: cover;
+	background-attachment: fixed; 
+}
+</style>
+	
+<body>
+	<div class="titleborder1">
+		<span class="title1">欢迎来到星辰千里的音乐库</span>
+		<span class='subtitle1'>想必下面一定有你喜欢的歌吧</span>
+	</div>
+	<hr class="div1">
+
+	<div class="contentborder1">
+		<div id="loadedContent" class="content1">
+		<script src="/javascript/fetchData.js"></script>
+		<script>
+			fetchData('songs.html');
+		</script>
+		</div>
+	</div>
+	<hr class="end1">
+	<div>
+		<span class="content1">ps:若歌词出现乱码、消失或报错等情况，可以尝试清除本地缓存后重新加载网页。若仍然出现错误情况，请等待程序员除错。
+	</div>
+</body>
+</html>

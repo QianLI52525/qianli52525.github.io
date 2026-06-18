@@ -1,0 +1,70 @@
+:root {
+	--base-size : calc(6vmin - 1vmax + 6px);  
+	--base-heit : calc(6vmin - 1vmax);  
+	--base-wid : calc(4vmin - 1vmax);
+	--lyrics-size : calc(16px + 0.15vw - 0.15vh);
+}
+
+.titlew{
+    display: block;
+    height: auto;
+    width: 100%;
+    color : #ffffff;
+    font-size: calc(var(--base-size) * 0.95);
+    font-weight: 700;}
+
+.subtw {
+    display: block;
+    height: auto;
+    width: 100%;
+    color : #ffffff;
+    font-size: calc(var(--base-size) * 0.75);
+    font-weight: 700;}
+
+.lyricsw {
+	display: block;
+    color : #ffffff;
+	font-size: calc(var(--lyrics-size));
+	font-weight: 500;}
+
+hr.divw {
+  border: 2px solid #ffffff;
+}
+    
+.discw {
+	display: block;
+    color : #ffffff;
+	font-size: calc(var(--lyrics-size) * 0.8);
+	font-weight: 400;}
+
+.titleb{
+    display: block;
+    height: auto;
+    width: 100%;
+    color : #000000;
+    font-size: calc(var(--base-size) * 0.95);
+    font-weight: 700;}
+
+.subtb {
+    display: block;
+    height: auto;
+    width: 100%;
+    color : #000000;
+    font-size: calc(var(--base-size) * 0.75);
+    font-weight: 600;}
+
+.lyricsb {
+	display: block;
+    color : #000000;
+	font-size: calc(var(--lyrics-size));
+	font-weight: 500;}
+
+hr.divb {
+  border: 2px solid #000000;
+}
+    
+.discb {
+	display: block;
+    color : #000000;
+	font-size: calc(var(--lyrics-size) * 0.8);
+	font-weight: 400;}
