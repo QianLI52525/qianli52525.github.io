@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>目标差值 · Tools</title>
+<style>
+  :root {
+    --bg: #0f0f1a;
+    --card: #1a1a2e;
+    --border: #2a2a40;
+    --accent: #7c5cfc;
+    --accent2: #f7525c;
+    --text: #e0dff0;
+    --text-dim: #8888a0;
+    --green: #4ade80;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .container {
+    width: 100%;
+    max-width: 480px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .target-line {
+    font-size: 13px;
+    color: var(--text-dim);
+    background: rgba(124,92,252,0.10);
+    border: 1px solid rgba(124,92,252,0.18);
+    border-radius: 8px;
+    padding: 6px 12px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .field-group {
+    margin-bottom: 16px;
+  }
+  .field-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+  }
+  .field-group input {
+    width: 100%;
+    padding: 10px 12px;
+    background: #121224;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 20px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .field-group input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.15);
+  }
+
+  .result-box {
+    background: #121224;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .result-box .label {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+  .result-box .value {
+    font-size: 24px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .result-box .value.accent { color: var(--accent); }
+  .result-box .value.green  { color: var(--green); }
+  .result-box .value.red    { color: var(--accent2); }
+  .result-box .value.dim    { color: var(--text-dim); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 18px 0;
+  }
+
+  .inline-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 8px;
+  }
+  .inline-row label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .inline-row input {
+    flex: 1;
+    padding: 8px 10px;
+    background: #121224;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    outline: none;
+    transition: border-color .2s;
+    min-width: 0;
+  }
+  .inline-row input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.15);
+  }
+  .inline-row input::placeholder {
+    color: #444;
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .count-display {
+    text-align: center;
+    padding: 18px 16px;
+  }
+  .count-display .big {
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--green), #6ee7b7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .count-display .unit {
+    font-size: 16px;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 4px;
+  }
+  .count-display .done {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .count-display .sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+  .count-display .sub strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .add-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 18px;
+    background: linear-gradient(135deg, var(--accent), #9b6dff);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .2s, transform .1s;
+  }
+  .add-btn:hover  { opacity: 0.88; }
+  .add-btn:active { transform: scale(0.97); }
+
+  .footer {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <h1>
+      🎯 目标差值
+    </h1>
+    <div class="target-line">目标值：<strong>26,710,108</strong></div>
+
+    <div class="field-group">
+      <label for="cur">当前数值</label>
+      <input type="number" id="cur" placeholder="输入数值…" autofocus>
+    </div>
+
+    <div class="result-box">
+      <span class="label">差值</span>
+      <span class="value" id="diff">—</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="inline-row">
+      <label for="step">每次增加</label>
+      <input type="number" id="step" placeholder="加多少…" value="1">
+    </div>
+
+    <div class="count-display">
+      <div class="big" id="timesBig">0</div>
+      <span class="unit">还可增加次数</span>
+      <div class="sub" id="remain">增加 <strong>—</strong> 后，剩余 <strong>—</strong></div>
+      <div class="sub" id="final">全部完成后，最终剩余 <strong>—</strong></div>
+    </div>
+
+    <button class="add-btn" id="addBtn">+ 增加一个步长</button>
+  </div>
+
+  <div class="footer">
+    <a href="/">← 返回首页</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const TARGET = 26710108;
+  const curEl    = document.getElementById('cur');
+  const stepEl   = document.getElementById('step');
+  const diffEl   = document.getElementById('diff');
+  const timesBig = document.getElementById('timesBig');
+  const remainEl = document.getElementById('remain');
+  const finalEl  = document.getElementById('final');
+
+  function fmt(n) {
+    if (!isFinite(n)) return '—';
+    return n.toLocaleString('zh-CN');
+  }
+
+  function update() {
+    const raw  = parseFloat(curEl.value.replace(/,/g, ''));
+    const step = parseFloat(stepEl.value) || 0;
+    const has  = curEl.value !== '' && !isNaN(raw);
+
+    if (!has) {
+      diffEl.textContent  = '—';
+      diffEl.className    = 'value dim';
+      timesBig.textContent = '0';
+      return;
+    }
+
+    const diff = TARGET - raw;
+
+    // 差值
+    diffEl.textContent = fmt(diff);
+    if (diff < 0)      diffEl.className = 'value red';
+    else if (diff === 0) diffEl.className = 'value dim';
+    else                 diffEl.className = 'value accent';
+
+    // 可增加次数
+    if (diff <= 0) {
+      timesBig.textContent = '✅';
+      remainEl.innerHTML = '增加 <strong>—</strong> 后，剩余 <strong>—</strong>';
+      finalEl.innerHTML  = '全部完成后，最终剩余 <strong>0</strong>';
+    } else if (step > 0) {
+      timesBig.textContent = fmt(Math.floor(diff / step));
+      const afterOnce = diff - step;
+      const remainder = diff % step;
+      remainEl.innerHTML =
+        '增加 <strong>' + fmt(step) + '</strong> 后，剩余 <strong>' + (afterOnce < 0 ? '0' : fmt(afterOnce)) + '</strong>';
+      finalEl.innerHTML  =
+        '全部完成后，最终剩余 <strong>' + fmt(remainder) + '</strong>';
+    } else {
+      timesBig.textContent = '∞';
+      remainEl.innerHTML = '增加 <strong>—</strong> 后，剩余 <strong>—</strong>';
+      finalEl.innerHTML  = '全部完成后，最终剩余 <strong>—</strong>';
+    }
+  }
+
+  curEl.addEventListener('input', update);
+  stepEl.addEventListener('input', update);
+
+  document.getElementById('addBtn').addEventListener('click', function() {
+    const step = parseFloat(stepEl.value) || 1;
+    const cur  = parseFloat(curEl.value.replace(/,/g, '')) || 0;
+    curEl.value = cur + step;
+    update();
+  });
+
+  update();
+})();
+</script>
+</body>
+</html>

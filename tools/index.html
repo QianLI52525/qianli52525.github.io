@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>优先度评分系统 · 医学版</title>
+  <style>
+    /* ─── Fonts ─────────────────────────────────────────────── */
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    /* ─── Variables ─────────────────────────────────────────── */
+    :root {
+      --bg:        #F4F1EC;
+      --surface:   #FFFFFF;
+      --border:    #E2DDD5;
+      --primary:   #1B4D3E;
+      --primary-h: #145232;
+      --accent:    #C8922A;
+      --accent-l:  #F5E9CC;
+      --text:      #1A1A1A;
+      --muted:     #7A7469;
+      --danger:    #B91C1C;
+      --p0:        #6B0000;
+      --p0-bg:     #FEE2E2;
+      --p1:        #92400E;
+      --p1-bg:     #FEF3C7;
+      --p2:        #1E3A5F;
+      --p2-bg:     #DBEAFE;
+      --p3:        #374151;
+      --p3-bg:     #F3F4F6;
+      --p4:        #6B7280;
+      --p4-bg:     #F9FAFB;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.04);
+      --shadow:    0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.06);
+      --radius:    12px;
+      --radius-sm: 8px;
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle noise texture on bg */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ─── Layout ─────────────────────────────────────────────── */
+    .app {
+      position: relative; z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* ─── Header ─────────────────────────────────────────────── */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header__eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .header__title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .header__title span { color: var(--accent); }
+    .header__sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+      font-weight: 300;
+    }
+
+    /* ─── Main grid ──────────────────────────────────────────── */
+    .workspace {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .workspace { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Card ───────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    .card__header {
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card__icon {
+      width: 28px; height: 28px;
+      background: var(--accent-l);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .card__title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 0.02em;
+    }
+    .card__body { padding: 20px 22px; }
+
+    /* ─── Form ───────────────────────────────────────────────── */
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--surface);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+    }
+    .input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(27,77,62,.1);
+    }
+
+    /* ─── Slider group ──────────────────────────────────────── */
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .score-slider {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      outline: none;
+      cursor: pointer;
+    }
+    .score-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+      transition: transform .15s;
+    }
+    .score-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    .score-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary);
+      width: 30px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ─── Criterion hint ─────────────────────────────────────── */
+    .criterion {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 5px;
+      padding: 6px 10px;
+      background: #FAFAF8;
+      border-radius: 6px;
+      line-height: 1.5;
+      border-left: 2px solid var(--accent);
+    }
+
+    /* ─── Checkbox group (multipliers) ───────────────────────── */
+    .cb-group { display: flex; flex-direction: column; gap: 7px; }
+    .cb-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      user-select: none;
+    }
+    .cb-item:hover { border-color: var(--primary); background: rgba(27,77,62,.03); }
+    .cb-item.active { border-color: var(--primary); background: rgba(27,77,62,.06); }
+    .cb-item input[type=checkbox] { display: none; }
+    .cb-check {
+      width: 16px; height: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .15s;
+      background: white;
+    }
+    .cb-item.active .cb-check {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    .cb-item.active .cb-check::after {
+      content: '✓';
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .cb-label {
+      font-size: 13px;
+      color: var(--text);
+      flex: 1;
+    }
+    .cb-label span { font-size: 11px; color: var(--muted); }
+    .cb-item.active .cb-label span { color: var(--primary); opacity: .7; }
+
+    /* ─── Section separator ──────────────────────────────────── */
+    .sep {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* ─── Section title ─────────────────────────────────────── */
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── Buttons ────────────────────────────────────────────── */
+    .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+    .btn {
+      flex: 1;
+      padding: 11px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--primary-h); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(27,77,62,.3); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ─── Result strip ───────────────────────────────────────── */
+    .result-strip {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: #FAFAF8;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+    }
+    .result-strip__label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .result-strip__score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+    .result-strip__priority {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .result-strip__priority.p0 { background: var(--p0-bg); color: var(--p0); }
+    .result-strip__priority.p1 { background: var(--p1-bg); color: var(--p1); }
+    .result-strip__priority.p2 { background: var(--p2-bg); color: var(--p2); }
+    .result-strip__priority.p3 { background: var(--p3-bg); color: var(--p3); }
+    .result-strip__priority.p4 { background: var(--p4-bg); color: var(--p4); }
+
+    /* ─── Right panel: comparison + history ──────────────────── */
+    .right-panel { display: flex; flex-direction: column; gap: 20px; }
+
+    /* ─── Comparison cards ───────────────────────────────────── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 680px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+
+    .compare-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .compare-card.has-data { border-color: var(--primary); }
+    .compare-card.empty::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0,0,0,.015) 10px,
+        rgba(0,0,0,.015) 20px
+      );
+    }
+    .compare-card__slot-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .compare-card__empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--border);
+    }
+    .compare-card__empty-icon { font-size: 28px; opacity: .4; }
+    .compare-card__empty-text { font-size: 12px; color: var(--muted); opacity: .5; }
+    .compare-card__content { display: flex; flex-direction: column; gap: 0; }
+    .compare-card__name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+    .compare-card__time {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 14px;
+    }
+    .compare-card__score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .compare-card__divider {
+      height: 1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+    .compare-card__dim {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+    }
+    .compare-card__dim-label { font-size: 11px; color: var(--muted); }
+    .compare-card__dim-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .compare-card__multi {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .compare-card__tag {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--accent-l);
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .compare-card__adj {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .compare-card__priority-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    /* ─── Selector row ──────────────────────────────────────── */
+    .selector-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 680px) {
+      .selector-row { grid-template-columns: 1fr; }
+    }
+    .selector-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .selector-wrap .label { font-size: 10px; }
+    .selector {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--text);
+      background: var(--surface);
+      outline: none;
+      cursor: pointer;
+    }
+    .selector:focus { border-color: var(--primary); }
+
+    /* ─── History list ───────────────────────────────────────── */
+    .history-list { display: flex; flex-direction: column; gap: 8px; }
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .history-item:hover { border-color: var(--primary); background: rgba(27,77,62,.02); }
+    .history-item__id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      width: 22px;
+      flex-shrink: 0;
+    }
+    .history-item__name {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .history-item__score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .history-item__priority {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .history-item__del {
+      background: none;
+      border: none;
+      color: var(--border);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color .15s, background .15s;
+      flex-shrink: 0;
+    }
+    .history-item__del:hover { color: var(--danger); background: var(--p0-bg); }
+    .history-empty {
+      text-align: center;
+      padding: 32px;
+      color: var(--muted);
+      font-size: 12px;
+      opacity: .6;
+    }
+
+    /* ─── Animated entry ─────────────────────────────────────── */
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim-slide { animation: slideInRight .3s ease forwards; }
+    .anim-fade  { animation: fadeUp .25s ease forwards; }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 11px;
+      color: var(--muted);
+      opacity: .6;
+    }
+
+    /* ─── Score pulse animation on result ────────────────────── */
+    @keyframes scorePulse {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+    .pulse { animation: scorePulse .4s ease; }
+
+    /* ─── Special rules section ──────────────────────────────── */
+    .special-rules { margin-top: 0; }
+    .special-rules .cb-item {
+      border-color: #F3E8D4;
+      background: #FFFCF5;
+    }
+    .special-rules .cb-item:hover { border-color: var(--accent); background: #FFF8EC; }
+    .special-rules .cb-item.active { border-color: var(--accent); background: var(--accent-l); }
+    .special-rules .cb-check { background: white; }
+    .special-rules .cb-item.active .cb-check { background: var(--accent); border-color: var(--accent); }
+    .special-rules .cb-item.active .cb-check::after { color: white; }
+    .special-rules .cb-item.active .cb-label { color: var(--text); }
+    .special-rules .cb-item.active .cb-label span { color: var(--accent); }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- Header -->
+  <header class="header">
+    <p class="header__eyebrow">Decision Framework · Medical Year 2</p>
+    <h1 class="header__title">事情优先度<span>评分</span>系统</h1>
+    <p class="header__sub">事情优先度评分系统 v1.0 · 2026-03-28 定稿</p>
+  </header>
+
+  <!-- Main workspace -->
+  <div class="workspace">
+
+    <!-- LEFT: Input form -->
+    <div class="card">
+      <div class="card__header">
+        <div class="card__icon">✎</div>
+        <span class="card__title">评分表单</span>
+      </div>
+      <div class="card__body">
+
+        <!-- 事项名称 -->
+        <div class="field">
+          <label class="label">事项名称</label>
+          <input class="input" id="nameInput" type="text" placeholder="例如：周五 Seminar、朋友约饭、家教备课" maxlength="80" />
+        </div>
+
+        <!-- 时间刚性 -->
+        <div class="field">
+          <label class="label">时间刚性 <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.7">(权重 0.80)</span></label>
+          <div class="score-row">
+            <input class="score-slider" id="sTimeRigidity" type="range" min="2" max="10" step="1" value="5" />
+            <span class="score-val" id="vTimeRigidity">5</span>
+          </div>
+          <div class="criterion" id="cTimeRigidity">5分 · 可协商：时间灵活（可回看视频课、非紧急聚会、弹性工作）</div>
+        </div>
+
+        <!-- 来源权重 -->
+        <div class="field">
+          <label class="label">来源权重 <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.7">(权重 0.65)</span></label>
+          <div class="score-row">
+            <input class="score-slider" id="sSource" type="range" min="3" max="10" step="1" value="6" />
+            <span class="score-val" id="vSource">6</span>
+          </div>
+          <div class="criterion" id="cSource">6分 · 深度关系：长期支持型人际（知己重要约定、家庭纪念日）</div>
+        </div>
+
+        <!-- 机会成本 -->
+        <div class="field">
+          <label class="label">机会成本 <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.7">(权重 0.50)</span></label>
+          <div class="score-row">
+            <input class="score-slider" id="sOpportunity" type="range" min="1" max="10" step="1" value="4" />
+            <span class="score-val" id="vOpportunity">4</span>
+          </div>
+          <div class="criterion" id="cOpportunity">4分 · 常规机会：周度/月度可替代（常规聚餐、可改期兼职、普通社交）</div>
+        </div>
+
+        <!-- 自我意愿 -->
+        <div class="field">
+          <label class="label">自我意愿 <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.7">(权重 0.40)</span></label>
+          <div class="score-row">
+            <input class="score-slider" id="sSelfWill" type="range" min="2" max="8.5" step="0.5" value="5" />
+            <span class="score-val" id="vSelfWill">5.0</span>
+          </div>
+          <div class="criterion" id="cSelfWill">5分 · 中性接受：无明显情绪，责任驱动（例行公事、常规维护）</div>
+        </div>
+
+        <div class="sep"></div>
+
+        <!-- 基础倍率：加法组 -->
+        <div class="section-title">基础倍率 · 加法组（累加）</div>
+        <div class="cb-group">
+          <label class="cb-item" id="cbCharging">
+            <input type="checkbox" value="charging" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">充电型 <span>+0.10 · 完成后精力显著恢复（知己深聊、成功运动、高意义感义工）</span></div>
+          </label>
+          <label class="cb-item" id="cbLight">
+            <input type="checkbox" value="light" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">轻度恢复 <span>+0.05 · 轻松愉悦（轻松聚会、有趣内容）</span></div>
+          </label>
+          <label class="cb-item" id="cbTomorrowRest">
+            <input type="checkbox" value="tomorrowRest" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">明日休息 <span>+0.08 · 次日无安排，心态从容</span></div>
+          </label>
+        </div>
+
+        <div class="sep"></div>
+
+        <!-- 基础倍率：乘法组 -->
+        <div class="section-title">基础倍率 · 乘法组（连乘）</div>
+        <div class="cb-group">
+          <label class="cb-item" id="cbLightDrain">
+            <input type="checkbox" value="lightDrain" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">轻度消耗 <span>×0.95 · 应酬、形式会议等</span></div>
+          </label>
+          <label class="cb-item" id="cbHeavyDrain">
+            <input type="checkbox" value="heavyDrain" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">重度消耗 <span>×0.90 · 冲突处理、熬夜事项等</span></div>
+          </label>
+          <label class="cb-item" id="cbTomorrowBusy">
+            <input type="checkbox" value="tomorrowBusy" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">明日满课 <span>×0.93 · 次日全天高强度安排</span></div>
+          </label>
+          <label class="cb-item" id="cbDeferrable">
+            <input type="checkbox" value="deferrable" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">可延期至明日 <span>×0.88 · 事项可推迟到明天完成（拖延惩罚）</span></div>
+          </label>
+        </div>
+
+        <div class="sep"></div>
+
+        <!-- 特殊规则 -->
+        <div class="section-title">特殊规则（主动勾选生效）</div>
+        <div class="cb-group special-rules">
+          <label class="cb-item" id="cbTaskPile">
+            <input type="checkbox" value="taskPile" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">任务积压 <span>时间刚性 +2 · 可回看视频课 / 任务积压 ≥3 件事</span></div>
+          </label>
+          <label class="cb-item" id="cbSleepDep">
+            <input type="checkbox" value="sleepDep" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">睡眠剥夺 <span>总分 −1 · 预计导致当晚 1 点后睡</span></div>
+          </label>
+          <label class="cb-item" id="cbPromiseLock">
+            <input type="checkbox" value="promiseLock" onchange="toggleCB(this)" />
+            <div class="cb-check"></div>
+            <div class="cb-label">承诺锁定 <span>来源分不可低于原值 · 已对他人明确承诺</span></div>
+          </label>
+        </div>
+
+        <!-- 按钮 -->
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="calculate()">▶ 计算总分</button>
+          <button class="btn btn-secondary" onclick="clearForm()">清空表单</button>
+        </div>
+
+        <!-- Live result strip -->
+        <div class="result-strip" id="resultStrip" style="display:none">
+          <div class="result-strip__label">本次计算结果</div>
+          <div class="result-strip__score" id="liveScore">—</div>
+          <div id="livePriorityBadge"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Comparison + History -->
+    <div class="right-panel">
+
+      <!-- Comparison -->
+      <div class="card">
+        <div class="card__header">
+          <div class="card__icon">⚖</div>
+          <span class="card__title">对比区</span>
+        </div>
+        <div class="card__body">
+          <div class="selector-row" style="margin-bottom:16px">
+            <div class="selector-wrap">
+              <label class="label">左侧（上次结果）</label>
+              <select class="selector" id="leftSelect" onchange="updateComparison()">
+                <option value="">— 留空 —</option>
+              </select>
+            </div>
+            <div class="selector-wrap">
+              <label class="label">右侧（最新结果）</label>
+              <select class="selector" id="rightSelect" onchange="updateComparison()">
+                <option value="">— 留空 —</option>
+              </select>
+            </div>
+          </div>
+          <div class="compare-grid">
+            <div class="compare-card empty" id="leftCard">
+              <div class="compare-card__slot-label">左侧 · 上次结果</div>
+              <div class="compare-card__empty">
+                <div class="compare-card__empty-icon">◌</div>
+                <div class="compare-card__empty-text">暂无数据</div>
+              </div>
+            </div>
+            <div class="compare-card empty" id="rightCard">
+              <div class="compare-card__slot-label">右侧 · 最新结果</div>
+              <div class="compare-card__empty">
+                <div class="compare-card__empty-icon">◌</div>
+                <div class="compare-card__empty-text">暂无数据</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="card">
+        <div class="card__header">
+          <div class="card__icon">☰</div>
+          <span class="card__title">历史记录 <span id="historyCount" style="font-weight:400;opacity:.6;font-size:11px">（0 条）</span></span>
+        </div>
+        <div class="card__body">
+          <div class="history-list" id="historyList">
+            <div class="history-empty">暂无记录，完成计算后自动保存</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">优先度评分系统 · 医学大二版 · v1.0</div>
+</div>
+
+<script>
+/* ─── Constants ──────────────────────────────────────────────── */
+const WEIGHTS = { time: 0.80, source: 0.65, opportunity: 0.50, selfWill: 0.40 };
+
+const CRITERIA = {
+  timeRigidity: {
+    2:  '2分 · 无限制：无可协商时间要求（长期计划、兴趣探索、非紧急阅读）',
+    5:  '5分 · 可协商：时间灵活（可回看视频课、非紧急聚会、弹性工作）',
+    7:  '7分 · 可协商（任务积压）：可回看视频课 / 任务积压 ≥3 件事',
+    8:  '8分 · 软截止：延期代价高（作业、课堂签到、已排家教、常规行政）',
+    10: '10分 · 硬截止：错过不可逆（期末考、复诊、签证DDL、重要面试）',
+  },
+  source: {
+    3:  '3分 · 浅层社交：低亲密度社交（普通朋友临时邀约、泛泛聚会）',
+    4:  '4分 · 自我发展：主动个人成长（自主运动、技能学习、职业规划）',
+    5:  '5分 · 家庭日常：常规家庭互动（父母日常请求、非紧急事务）',
+    6:  '6分 · 深度关系：长期支持型人际（知己重要约定、家庭纪念日）',
+    7:  '7分 · 义工服务：已确认承诺（HKVA排班、公益、社区服务）',
+    8:  '8分 · 有偿工作：经济来源+职业承诺（家教、兼职、实习）',
+    9:  '9分 · 医疗机构：健康维护（复诊、检查、处方药，直接影响学业）',
+    10: '10分 · 政府机构：法律/行政强制（签证、证件、强制通知）',
+  },
+  opportunity: {
+    1:  '1分 · 随时可启：无稀缺性（日常用餐、随时运动、无截止阅读）',
+    4:  '4分 · 常规机会：周度/月度可替代（常规聚餐、可改期兼职、普通社交）',
+    7:  '7分 · 周期稀缺：季度/年度窗口（HKVA年度项目、传统节日、学期一次讲座、奖学金申请）',
+    10: '10分 · 不可复现：多年一遇（行业大牛唯一分享、限量面试、特殊天文、重要告别）',
+  },
+  selfWill: {
+    2:  '2分 · 义务抗拒：外部压力，内心抵触（形式应酬、被动无效社交）',
+    5:  '5分 · 中性接受：无明显情绪，责任驱动（例行公事、常规维护）',
+    8.5:'8.5分 · 高度期待：内心渴望，完成后满足（期待已久聚会、主动争取机会、创造性活动）',
+  },
+};
+
+const ADD_GROUP = { charging: 0.10, light: 0.05, tomorrowRest: 0.08 };
+const MUL_GROUP = { lightDrain: 0.95, heavyDrain: 0.90, tomorrowBusy: 0.93, deferrable: 0.88 };
+const SPECIAL   = { taskPile: { dim: 'timeRigidity', delta: 2 }, sleepDep: { weighted: -1 } };
+
+/* ─── State ──────────────────────────────────────────────────── */
+let history = [];
+let nextId  = 1;
+
+/* ─── Slider wiring ──────────────────────────────────────────── */
+const sliders = {
+  sTimeRigidity: { val: 'vTimeRigidity', crit: 'cTimeRigidity', decimals: 0 },
+  sSource:       { val: 'vSource',        crit: 'cSource',        decimals: 0 },
+  sOpportunity:  { val: 'vOpportunity',   crit: 'cOpportunity',  decimals: 0 },
+  sSelfWill:     { val: 'vSelfWill',      crit: 'cSelfWill',     decimals: 1 },
+};
+
+Object.entries(sliders).forEach(([sid, cfg]) => {
+  const slider = document.getElementById(sid);
+  const valEl  = document.getElementById(cfg.val);
+  const critEl = document.getElementById(cfg.crit);
+
+  slider.addEventListener('input', () => {
+    const v = parseFloat(slider.value);
+    valEl.textContent = cfg.decimals ? v.toFixed(1) : v;
+    updateCriterion(sid.replace('s',''), v);
+  });
+});
+
+function updateCriterion(dim, score) {
+  const crits = CRITERIA[dim];
+  const nearest = Object.keys(crits)
+    .map(Number)
+    .reduce((a, b) => Math.abs(b - score) < Math.abs(a - score) ? b : a);
+  document.getElementById('c' + capitalize(dim)).textContent = crits[nearest];
+}
+
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+/* ─── Checkbox toggle ────────────────────────────────────────── */
+function toggleCB(input) {
+  input.closest('.cb-item').classList.toggle('active', input.checked);
+}
+
+/* ─── Calculate ──────────────────────────────────────────────── */
+function calculate() {
+  const name = document.getElementById('nameInput').value.trim() || '未命名事项';
+
+  let timeR  = parseFloat(document.getElementById('sTimeRigidity').value);
+  let source = parseFloat(document.getElementById('sSource').value);
+  let opp    = parseFloat(document.getElementById('sOpportunity').value);
+  let will   = parseFloat(document.getElementById('sSelfWill').value);
+
+  // 任务积压：时间刚性 +2
+  if (document.getElementById('cbTaskPile').classList.contains('active')) {
+    timeR = Math.min(timeR + 2, 10);
+  }
+
+  // 基础分
+  const baseScore =
+    timeR  * WEIGHTS.time     +
+    source * WEIGHTS.source   +
+    opp    * WEIGHTS.opportunity +
+    will   * WEIGHTS.selfWill;
+
+  // 基础倍率
+  let addSum = 0, mulProd = 1;
+  Object.entries(ADD_GROUP).forEach(([k, v]) => {
+    if (document.getElementById('cb' + capitalize(k)).classList.contains('active')) addSum += v;
+  });
+  Object.entries(MUL_GROUP).forEach(([k, v]) => {
+    if (document.getElementById('cb' + capitalize(k)).classList.contains('active')) mulProd *= v;
+  });
+  const multiplier = (1 + addSum) * mulProd;
+
+  // 加权分
+  let weightedAdjust = 0;
+  if (document.getElementById('cbSleepDep').classList.contains('active')) weightedAdjust += SPECIAL.sleepDep.weighted;
+
+  // 承诺锁定：来源贡献不低
+  let sourceContrib = source * WEIGHTS.source;
+  if (document.getElementById('cbPromiseLock').classList.contains('active')) {
+    sourceContrib = Math.max(sourceContrib, source * WEIGHTS.source);
+  }
+
+  const finalScore = parseFloat((baseScore * multiplier + weightedAdjust).toFixed(3));
+  const priority   = getPriority(finalScore);
+  const ts         = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+
+  // Build multiplier description
+  const addList = Object.entries(ADD_GROUP)
+    .filter(([k]) => document.getElementById('cb' + capitalize(k)).classList.contains('active'))
+    .map(([, v]) => '+' + v);
+  const mulList = Object.entries(MUL_GROUP)
+    .filter(([k]) => document.getElementById('cb' + capitalize(k)).classList.contains('active'))
+    .map(([, v]) => '×' + v);
+  const multiplierLabel = `(1${addList.join('')}) ${mulList.join(' ')}`.trim();
+
+  // 承诺锁定时，baseScore需要用锁定后的来源贡献重建
+  // 基础分 = timeR*W.time + sourceContrib + opp*W.opportunity + will*W.selfWill
+  const lockedBaseScore =
+    timeR  * WEIGHTS.time +
+    sourceContrib +
+    opp    * WEIGHTS.opportunity +
+    will   * WEIGHTS.selfWill;
+
+  const item = {
+    id: nextId++,
+    name,
+    timestamp: ts,
+    rawScores: { timeRigidity: timeR, source, opportunity: opp, selfWill: will },
+    dims: {
+      time:     (timeR  * WEIGHTS.time).toFixed(2),
+      source:   (sourceContrib).toFixed(2),
+      opportunity: (opp  * WEIGHTS.opportunity).toFixed(2),
+      selfWill: (will  * WEIGHTS.selfWill).toFixed(2),
+    },
+    baseScore: lockedBaseScore.toFixed(2),
+    multiplier: { value: multiplier.toFixed(3), add: addList, mul: mulList },
+    weightedAdjust,
+    finalScore,
+    priority,
+    priorityClass: 'p' + priority.replace('P','').split('-')[0],
+  };
+
+  history.push(item);
+  if (history.length > 6) history.shift();
+  renderHistory();
+  updateSelectors();
+  updateComparison();
+
+  // Show live result
+  showLiveResult(item);
+
+  // Clear form after a short delay
+  setTimeout(clearForm, 300);
+}
+
+function showLiveResult(item) {
+  const strip = document.getElementById('resultStrip');
+  strip.style.display = '';
+  const scoreEl = document.getElementById('liveScore');
+  scoreEl.textContent = item.finalScore.toFixed(2);
+  scoreEl.classList.remove('pulse');
+  void scoreEl.offsetWidth;
+  scoreEl.classList.add('pulse');
+  const badge = document.getElementById('livePriorityBadge');
+  badge.className = 'result-strip__priority ' + item.priorityClass;
+  badge.textContent = item.priority;
+}
+
+function getPriority(score) {
+  if (score >= 8.0) return 'P0-紧急';
+  if (score >= 6.0) return 'P1-高优';
+  if (score >= 4.0) return 'P2-中等';
+  if (score >= 2.0) return 'P3-低优';
+  return 'P4-删除/委托';
+}
+
+function clearForm() {
+  document.getElementById('nameInput').value = '';
+  document.getElementById('sTimeRigidity').value = 5;
+  document.getElementById('sSource').value = 6;
+  document.getElementById('sOpportunity').value = 4;
+  document.getElementById('sSelfWill').value = 5;
+  document.getElementById('vTimeRigidity').textContent = '5';
+  document.getElementById('vSource').textContent = '6';
+  document.getElementById('vOpportunity').textContent = '4';
+  document.getElementById('vSelfWill').textContent = '5.0';
+  updateCriterion('timeRigidity', 5);
+  updateCriterion('source', 6);
+  updateCriterion('opportunity', 4);
+  updateCriterion('selfWill', 5);
+  document.querySelectorAll('.cb-item').forEach(el => {
+    el.classList.remove('active');
+    el.querySelector('input[type=checkbox]').checked = false;
+  });
+}
+
+/* ─── History ─────────────────────────────────────────────────── */
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const count = document.getElementById('historyCount');
+  count.textContent = `（${history.length} 条）`;
+  if (!history.length) {
+    list.innerHTML = '<div class="history-empty">暂无记录，完成计算后自动保存</div>';
+    return;
+  }
+  list.innerHTML = history.map(item => `
+    <div class="history-item anim-fade" onclick="pinToRight(${item.id})">
+      <span class="history-item__id">#${item.id}</span>
+      <span class="history-item__name">${escHtml(item.name)}</span>
+      <span class="history-item__score">${item.finalScore.toFixed(2)}</span>
+      <span class="history-item__priority ${item.priorityClass}">${item.priority}</span>
+      <button class="history-item__del" onclick="event.stopPropagation();deleteItem(${item.id})" title="删除">✕</button>
+    </div>
+  `).join('');
+}
+
+function deleteItem(id) {
+  history = history.filter(h => h.id !== id);
+  renderHistory();
+  updateSelectors();
+  updateComparison();
+}
+
+function pinToRight(id) {
+  const item = history.find(h => h.id === id);
+  if (!item) return;
+  document.getElementById('rightSelect').value = String(id);
+  updateComparison();
+}
+
+/* ─── Selectors ──────────────────────────────────────────────── */
+function updateSelectors() {
+  ['leftSelect', 'rightSelect'].forEach(selId => {
+    const sel = document.getElementById(selId);
+    const otherVal = selId === 'leftSelect'
+      ? document.getElementById('rightSelect').value
+      : document.getElementById('leftSelect').value;
+    const currentVal = sel.value;
+
+    let html = `<option value="">— 留空 —</option>`;
+    history.forEach(item => {
+      const disabled = item.id == otherVal || item.id == currentVal && item.id != otherVal ? 'disabled' : '';
+      const selected = item.id == currentVal ? 'selected' : '';
+      html += `<option value="${item.id}" ${selected} ${disabled}>${item.id}. ${escHtml(item.name)} (${item.finalScore.toFixed(2)})</option>`;
+    });
+    sel.innerHTML = html;
+  });
+}
+
+/* ─── Comparison cards ────────────────────────────────────────── */
+function updateComparison() {
+  const leftId  = document.getElementById('leftSelect').value;
+  const rightId = document.getElementById('rightSelect').value;
+  renderCompareCard('leftCard',  leftId  ? history.find(h => h.id == Number(leftId))  : null);
+  renderCompareCard('rightCard', rightId ? history.find(h => h.id == Number(rightId)) : null);
+}
+
+function renderCompareCard(cardId, item) {
+  const card = document.getElementById(cardId);
+  if (!item) {
+    card.className = 'compare-card empty';
+    card.innerHTML = `
+      <div class="compare-card__slot-label">${cardId === 'leftCard' ? '左侧 · 上次结果' : '右侧 · 最新结果'}</div>
+      <div class="compare-card__empty">
+        <div class="compare-card__empty-icon">◌</div>
+        <div class="compare-card__empty-text">暂无数据</div>
+      </div>`;
+    return;
+  }
+  card.className = 'compare-card has-data anim-slide';
+
+  const addStr = item.multiplier.add.length ? item.multiplier.add.join('') : '+0';
+  const mulStr = item.multiplier.mul.length ? ' ' + item.multiplier.mul.join(' ') : '';
+  const multiplierDisplay = `(1${addStr})${mulStr}`.replace('+0', '').trim();
+  const adjStr = item.weightedAdjust !== 0 ? (item.weightedAdjust > 0 ? `+${item.weightedAdjust}` : item.weightedAdjust) : '无';
+
+  card.innerHTML = `
+    <div class="compare-card__slot-label">${cardId === 'leftCard' ? '左侧 · 上次结果' : '右侧 · 最新结果'}</div>
+    <div class="compare-card__content">
+      <div class="compare-card__name">${escHtml(item.name)}</div>
+      <div class="compare-card__time">${item.timestamp}</div>
+      <div class="compare-card__score">${item.finalScore.toFixed(2)}</div>
+      <span class="compare-card__priority-badge ${item.priorityClass}">${item.priority}</span>
+      <div class="compare-card__divider"></div>
+      <div class="compare-card__dim">
+        <span class="compare-card__dim-label">时间刚性</span>
+        <span class="compare-card__dim-val">${item.rawScores.timeRigidity} → ${item.dims.time}</span>
+      </div>
+      <div class="compare-card__dim">
+        <span class="compare-card__dim-label">来源权重</span>
+        <span class="compare-card__dim-val">${item.rawScores.source} → ${item.dims.source}</span>
+      </div>
+      <div class="compare-card__dim">
+        <span class="compare-card__dim-label">机会成本</span>
+        <span class="compare-card__dim-val">${item.rawScores.opportunity} → ${item.dims.opportunity}</span>
+      </div>
+      <div class="compare-card__dim">
+        <span class="compare-card__dim-label">自我意愿</span>
+        <span class="compare-card__dim-val">${item.rawScores.selfWill} → ${item.dims.selfWill}</span>
+      </div>
+      <div class="compare-card__divider"></div>
+      <div class="compare-card__dim">
+        <span class="compare-card__dim-label">基础倍率</span>
+        <span class="compare-card__dim-val">${item.multiplier.value} ${multiplierDisplay}</span>
+      </div>
+      <div class="compare-card__dim">
+        <span class="compare-card__dim-label">加权分</span>
+        <span class="compare-card__dim-val">${adjStr}</span>
+      </div>
+    </div>`;
+}
+
+/* ─── Utility ─────────────────────────────────────────────────── */
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─── Init ────────────────────────────────────────────────────── */
+updateCriterion('timeRigidity', 5);
+updateCriterion('source', 6);
+updateCriterion('opportunity', 4);
+updateCriterion('selfWill', 5);
+updateSelectors();
+</script>
+</body>
+</html>
