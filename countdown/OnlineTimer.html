@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>鍦ㄧ嚎璁℃椂鍣?/title>
+<title>在线计时器</title>
 <link rel="icon" href="/main.ico">
 <link rel="stylesheet" type="text/css" href="/css/maincss.css">
 <script src="/javascript/mainBgpicAutoInsert.js"></script>
@@ -19,11 +19,11 @@
   }
   .timer-container {
     text-align: center;
-    max-width: 90%; /* 鏈€澶у搴︿负瑙嗗彛瀹藉害鐨?0% */
-    max-height: 90%; /* 鏈€澶ч珮搴︿负瑙嗗彛楂樺害鐨?0% */
+    max-width: 90%; /* 最大宽度为视口宽度的90% */
+    max-height: 90%; /* 最大高度为视口高度的90% */
   }
   .timer {
-    font-size: clamp(2rem, 4vw, 48px); /* 瀛椾綋澶у皬鍦?rem鍜?8px涔嬮棿骞虫粦鍙樺寲 */
+    font-size: clamp(2rem, 4vw, 48px); /* 字体大小在2rem和48px之间平滑变化 */
     margin-bottom: 20px;
   }
   .buttons {
@@ -40,20 +40,20 @@
   }
   button {
     padding: 10px 20px;
-    font-size: clamp(1rem, 2vw, 16px); /* 瀛椾綋澶у皬鍦?rem鍜?6px涔嬮棿骞虫粦鍙樺寲 */
+    font-size: clamp(1rem, 2vw, 16px); /* 字体大小在1rem和16px之间平滑变化 */
     cursor: pointer;
     text-align: center;
   }
   input {
     padding: 8px;
-    font-size: clamp(1rem, 2vw, 16px); /* 瀛椾綋澶у皬鍦?rem鍜?6px涔嬮棿骞虫粦鍙樺寲 */
+    font-size: clamp(1rem, 2vw, 16px); /* 字体大小在1rem和16px之间平滑变化 */
     margin-right: 10px;
     text-align: center;
   }
   #message {
     margin-top: 20px;
-    font-size: clamp(1rem, 2vw, 16px); /* 瀛椾綋澶у皬鍦?rem鍜?6px涔嬮棿骞虫粦鍙樺寲 */
-    color: red; /* 鍙互鏍规嵁闇€瑕佹洿鏀规秷鎭鑹?*/
+    font-size: clamp(1rem, 2vw, 16px); /* 字体大小在1rem和16px之间平滑变化 */
+    color: red; /* 可以根据需要更改消息颜色 */
   }
 </style>
 </head>
@@ -64,37 +64,37 @@
   <div class="timer" id="timer">00:00:00</div>
   <div class="buttons">
     <div>
-      <button onclick="resetTimer()">閲嶇疆</button>
-      <button id="pauseButton" onclick="pauseTimer()">鏆傚仠</button>
+      <button onclick="resetTimer()">重置</button>
+      <button id="pauseButton" onclick="pauseTimer()">暂停</button>
     </div>
     <div>
-      <button onclick="addTime(1)">+1鍒嗛挓</button>
-      <button onclick="addTime(5)">+5鍒嗛挓</button>
-      <button onclick="addTime(10)">+10鍒嗛挓</button>
-      <button onclick="addTime(30)">+30鍒嗛挓</button>
-      <button onclick="addTime(60)">+60鍒嗛挓</button>
+      <button onclick="addTime(1)">+1分钟</button>
+      <button onclick="addTime(5)">+5分钟</button>
+      <button onclick="addTime(10)">+10分钟</button>
+      <button onclick="addTime(30)">+30分钟</button>
+      <button onclick="addTime(60)">+60分钟</button>
     </div>
     <div>
-      <button onclick="subtractTime(1)">-1鍒嗛挓</button>
-      <button onclick="subtractTime(5)">-5鍒嗛挓</button>
-      <button onclick="subtractTime(10)">-10鍒嗛挓</button>
-      <button onclick="subtractTime(30)">-30鍒嗛挓</button>
-      <button onclick="subtractTime(60)">-60鍒嗛挓</button>
+      <button onclick="subtractTime(1)">-1分钟</button>
+      <button onclick="subtractTime(5)">-5分钟</button>
+      <button onclick="subtractTime(10)">-10分钟</button>
+      <button onclick="subtractTime(30)">-30分钟</button>
+      <button onclick="subtractTime(60)">-60分钟</button>
     </div>
   </div>
   <div style="margin-top: 20px;">
-    <input type="number" id="customMinutes" placeholder="杈撳叆鍒嗛挓鏁? min="1">
-    <button onclick="addCustomTime()">娣诲姞鑷畾涔夋椂闂?/button>
-    <button onclick="subtractCustomTime()">鍑忓皯鑷畾涔夋椂闂?/button>
+    <input type="number" id="customMinutes" placeholder="输入分钟数" min="1">
+    <button onclick="addCustomTime()">添加自定义时间</button>
+    <button onclick="subtractCustomTime()">减少自定义时间</button>
   </div>
   <div id="message"></div>
-  <div>姝ら〉闈㈢敱AI鐢熸垚</div>
+  <div>此页面由AI生成</div>
 </div>
 
 <script>
-  let seconds = 0; // 鍊掕鏃跺垵濮嬬鏁?
+  let seconds = 0; // 倒计时初始秒数
   let intervalId = null;
-  let isPaused = false; // 璺熻釜璁℃椂鍣ㄦ槸鍚︽殏鍋?
+  let isPaused = false; // 跟踪计时器是否暂停
 
   function startTimer() {
     intervalId = setInterval(() => {
@@ -103,7 +103,7 @@
         if (seconds < 0) {
           clearInterval(intervalId);
           intervalId = null;
-          document.getElementById('message').textContent = '鏃堕棿鍒?';
+          document.getElementById('message').textContent = '时间到!';
           return;
         }
         displayTime();
@@ -129,20 +129,20 @@
     seconds = 0;
     displayTime();
     document.getElementById('message').textContent = '';
-    isPaused = false; // 纭繚閲嶇疆鏃惰鏃跺櫒涓嶆槸鏆傚仠鐘舵€?
-    document.getElementById('pauseButton').textContent = '鏆傚仠';
+    isPaused = false; // 确保重置时计时器不是暂停状态
+    document.getElementById('pauseButton').textContent = '暂停';
   }
 
   function pauseTimer() {
     if (isPaused) {
       startTimer();
       isPaused = false;
-      document.getElementById('pauseButton').textContent = '鏆傚仠';
+      document.getElementById('pauseButton').textContent = '暂停';
     } else {
       clearInterval(intervalId);
       intervalId = null;
       isPaused = true;
-      document.getElementById('pauseButton').textContent = '寮€濮?;
+      document.getElementById('pauseButton').textContent = '开始';
     }
   }
 
@@ -157,7 +157,7 @@
   function subtractTime(minutesToSubtract) {
     const totalSeconds = seconds - minutesToSubtract * 60;
     if (totalSeconds < 0) {
-      document.getElementById('message').textContent = "鏃堕棿涓嶈冻锛屾棤娉曞噺灏戯紒";
+      document.getElementById('message').textContent = "时间不足，无法减少！";
       return;
     }
     seconds = totalSeconds;
@@ -172,9 +172,9 @@
     const minutesToAdd = parseInt(customMinutes);
     if (!isNaN(minutesToAdd) && minutesToAdd > 0) {
       addTime(minutesToAdd);
-      document.getElementById('message').textContent = `宸叉坊鍔?${minutesToAdd} 鍒嗛挓`;
+      document.getElementById('message').textContent = `已添加 ${minutesToAdd} 分钟`;
     } else {
-      document.getElementById('message').textContent = "璇疯緭鍏ユ湁鏁堢殑鍒嗛挓鏁帮紒";
+      document.getElementById('message').textContent = "请输入有效的分钟数！";
     }
   }
 
@@ -184,12 +184,12 @@
     if (!isNaN(minutesToSubtract) && minutesToSubtract > 0) {
       if (seconds >= minutesToSubtract * 60) {
         subtractTime(minutesToSubtract);
-        document.getElementById('message').textContent = `宸插噺灏?${minutesToSubtract} 鍒嗛挓`;
+        document.getElementById('message').textContent = `已减少 ${minutesToSubtract} 分钟`;
       } else {
-        document.getElementById('message').textContent = "鏃堕棿涓嶈冻锛屾棤娉曞噺灏戯紒";
+        document.getElementById('message').textContent = "时间不足，无法减少！";
       }
     } else {
-      document.getElementById('message').textContent = "璇疯緭鍏ユ湁鏁堢殑鍒嗛挓鏁帮紒";
+      document.getElementById('message').textContent = "请输入有效的分钟数！";
     }
   }
 </script>
