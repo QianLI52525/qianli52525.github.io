@@ -238,6 +238,7 @@ body {
 ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
 </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 
@@ -343,85 +344,109 @@ body {
   document.addEventListener('click', function(e) {
     const wrap = e.target.closest('.spoiler-wrap');
     if (!wrap || wrap.classList.contains('revealed')) return;
-
     wrap.classList.add('revealed');
-
-    // 视频遮罩：自动播放 + 禁止暂停
     const video = wrap.querySelector('video');
     if (video) {
       video.play().catch(function(){});
-      video.addEventListener('pause', function forcePlay() {
-        if (!video.ended && video.currentTime > 0) {
-          video.play().catch(function(){});
-        }
+      video.addEventListener('pause', function() {
+        if (!video.ended && video.currentTime > 0) video.play().catch(function(){});
       });
     }
   });
-
   document.addEventListener('selectstart', function(e) {
     const wrap = e.target.closest('.spoiler-wrap');
-    if (wrap && !wrap.classList.contains('revealed')) {
-      e.preventDefault();
-    }
+    if (wrap && !wrap.classList.contains('revealed')) e.preventDefault();
   });
 })();
 
-/* ========== 2. B站粉丝数 API ========== */
+/* ========== 2. B站粉丝数 API（双源 fallback） ========== */
 (function() {
   const CONFIG = {
     uid:         '3706971377109006',
     refreshSec:  10,
     startMark:   '【api调用01开始】',
     endMark:     '【api调用01结束】',
-    apiUrl:      '/api/bili/fans?vmid='
+    proxyUrl:    '/api/bili/fans?vmid=',
+    directUrl:   'https://api.bilibili.com/x/relation/stat?vmid='
   };
 
-  function findMarkedNode() {
-    const walker = document.createTreeWalker(
-      document.body, NodeFilter.SHOW_TEXT, null, false
-    );
+  function injectLiveSpan() {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
     let node;
     while (node = walker.nextNode()) {
       const t = node.textContent;
-      if (t.includes(CONFIG.startMark) && t.includes(CONFIG.endMark))
-        return node;
+      if (t.includes(CONFIG.startMark) && t.includes(CONFIG.endMark)) {
+        const text   = node.textContent;
+        const s      = text.indexOf(CONFIG.startMark);
+        const e      = text.indexOf(CONFIG.endMark) + CONFIG.endMark.length;
+        const before = text.slice(0, s);
+        const after  = text.slice(e);
+        const parent = node.parentNode;
+
+        if (before) parent.insertBefore(document.createTextNode(before), node);
+
+        const live = document.createElement('span');
+        live.id = 'bili-fan-live';
+        live.style.color = '#00a1d6';
+        live.style.fontWeight = '600';
+        live.textContent = '加载中…';
+        parent.insertBefore(live, node);
+
+        if (after) parent.insertBefore(document.createTextNode(after), node);
+        parent.removeChild(node);
+
+        console.log('[BiliFan] 已注入 span');
+        return live;
+      }
     }
+    console.error('[BiliFan] 未找到标记文本');
     return null;
   }
 
-  function injectLiveSpan(textNode) {
-    const text   = textNode.textContent;
-    const s      = text.indexOf(CONFIG.startMark);
-    const e      = text.indexOf(CONFIG.endMark) + CONFIG.endMark.length;
-    const before = text.slice(0, s);
-    const after  = text.slice(e);
-    const parent = textNode.parentNode;
-
-    if (before) parent.insertBefore(document.createTextNode(before), textNode);
-
-    const live = document.createElement('span');
-    live.id = 'bili-fan-live';
-    live.style.color = '#00a1d6';
-    live.style.fontWeight = '600';
-    live.textContent = '加载中…';
-    parent.insertBefore(live, textNode);
-
-    if (after) parent.insertBefore(document.createTextNode(after), textNode);
-
-    parent.removeChild(textNode);
-    return live;
-  }
-
   async function fetchFans() {
-    const url = CONFIG.apiUrl + CONFIG.uid + '&_t=' + Date.now();
-    const res = await fetch(url, { cache: 'no-store' });
-    const data = await res.json();
-    if (data.code !== 0) throw new Error(data.message || 'API error');
-    return data.data.follower;
+    const ts = Date.now();
+    const proxy = CONFIG.proxyUrl + CONFIG.uid + '&_t=' + ts;
+    const direct = CONFIG.directUrl + CONFIG.uid + '&_t=' + ts;
+
+    try {
+      console.log('[BiliFan] 尝试代理:', proxy);
+      const res = await fetch(proxy, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.code === 0) return data.data.follower;
+        throw new Error('代理返回 code=' + data.code);
+      }
+      if (res.status === 404) {
+        console.warn('[BiliFan] 代理 404，fallback 直连 B 站');
+      } else {
+        throw new Error('代理 HTTP ' + res.status);
+      }
+    } catch (err) {
+      console.warn('[BiliFan] 代理失败:', err.message);
+    }
+
+    try {
+      console.log('[BiliFan] 尝试直连:', direct);
+      const res = await fetch(direct, {
+        cache: 'no-store',
+        headers: {
+          'Referer': 'https://space.bilibili.com',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+      });
+      if (!res.ok) throw new Error('直连 HTTP ' + res.status);
+      const data = await res.json();
+      if (data.code === 0) return data.data.follower;
+      throw new Error('直连返回 code=' + data.code);
+    } catch (err) {
+      console.error('[BiliFan] 直连也失败:', err.message);
+      throw err;
+    }
   }
 
   function updateSpan(span, fans) {
     span.textContent = '你现在有' + fans + '个粉丝了！要再接再厉啊，争取速速千粉！';
+    console.log('[BiliFan] 更新成功:', fans);
   }
 
   async function tick(span) {
@@ -429,18 +454,15 @@ body {
       const fans = await fetchFans();
       updateSpan(span, fans);
     } catch (err) {
-      console.error('[BiliFan]', err);
+      const span = document.getElementById('bili-fan-live');
+      if (span) span.textContent = '粉丝数获取失败';
     }
   }
 
-  const node = findMarkedNode();
-  if (!node) {
-    console.error('[BiliFan] 未找到标记文本');
-    return;
-  }
+  const span = injectLiveSpan();
+  if (!span) return;
 
-  const span = injectLiveSpan(node);
-  tick(span);
+  setTimeout(() => tick(span), 300);
   let timer = setInterval(() => tick(span), CONFIG.refreshSec * 1000);
 
   document.addEventListener('visibilitychange', () => {
