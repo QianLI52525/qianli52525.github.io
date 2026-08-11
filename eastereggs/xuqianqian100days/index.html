@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>百天纪念 - 许仟仟</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: #e8e3d9 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4cfc5' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  min-height: 100vh;
+  padding: 30px 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 顶部导航 */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 8px 8px 0 0;
+  border-bottom: 2px solid #ddd;
+}
+
+.back-btn {
+  color: #555;
+  text-decoration: none;
+  font-size: 14px;
+}
+.back-btn:hover { color: #e91e63; }
+
+.top-bar-right {
+  display: flex;
+  gap: 15px;
+  font-size: 13px;
+}
+.top-bar-right a {
+  color: #666;
+  text-decoration: none;
+}
+.top-bar-right a:hover { color: #e91e63; }
+
+/* 主内容区 */
+.main-wrap {
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.article-area {
+  padding: 40px 50px;
+}
+
+.article-header {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #ddd;
+  margin-bottom: 30px;
+}
+
+.article-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 13px;
+  color: #999;
+}
+.meta-author a {
+  color: #e91e63;
+  text-decoration: none;
+}
+.meta-author a:hover { text-decoration: underline; }
+
+/* 正文 */
+.article-body {
+  font-size: 16px;
+  line-height: 2;
+  color: #444;
+}
+.article-body p {
+  margin-bottom: 18px;
+}
+
+/* GIF 行 */
+.gif-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+.gif-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f0f0f0;
+}
+
+/* 图片 */
+.post-image-wrap {
+  text-align: center;
+  margin: 20px 0;
+}
+.post-img {
+  max-width: 100%;
+  border-radius: 8px;
+  background: #f0f0f0;
+  min-height: 200px;
+}
+.img-caption {
+  font-size: 13px;
+  color: #888;
+  margin-top: 8px;
+}
+
+/* 视频 */
+.video-wrap {
+  margin: 20px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.video-wrap video {
+  width: 100%;
+  display: block;
+  background: #000;
+}
+
+/* ===== 剧透遮罩核心样式 ===== */
+.spoiler-wrap {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.spoiler-wrap.block {
+  display: block;
+}
+.spoiler-wrap .spoiler-content {
+  display: block;
+  filter: blur(8px);
+  transition: filter 0.3s ease;
+}
+.spoiler-wrap .spoiler-mask {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.spoiler-wrap .spoiler-hint {
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px 20px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.spoiler-wrap:hover .spoiler-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+.spoiler-wrap.revealed .spoiler-mask {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.spoiler-wrap.revealed .spoiler-content {
+  filter: blur(0);
+}
+
+/* 称呼 */
+.salutation {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0 15px;
+}
+
+/* 底部动作 */
+.article-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px dashed #ddd;
+}
+.article-actions {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.action-item:hover { color: #e91e63; }
+.action-item.liked { color: #e91e63; }
+
+/* 响应式 */
+@media (max-width: 600px) {
+  .article-area { padding: 20px; }
+  .gif-img { width: 90px; height: 90px; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="container">
+  <div class="top-bar">
+    <a href="#" class="back-btn">&larr; 返回空间首页</a>
+    <div class="top-bar-right">
+      <a href="#">我的空间</a>
+      <a href="#">好友动态</a>
+      <a href="#">设置</a>
+    </div>
+  </div>
+
+  <div class="main-wrap">
+    <div class="article-area">
+      <div class="article-header">
+        <h1 class="article-title">百天纪念</h1>
+        <div class="article-meta">
+          <span class="meta-author"><a href="#">千ni姐姐</a></span>
+          <span>2025年8月11日</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+        <!-- 顶部GIF -->
+        <div class="gif-row">
+          <img src="gif01.gif" alt="gif" class="gif-img">
+          <img src="gif01.gif" alt="gif" class="gif-img">
+          <img src="gif01.gif" alt="gif" class="gif-img">
+        </div>
+
+        <p style="color:#888;font-size:14px;text-align:center;">（有视频，记得开声音）</p>
+
+        <div class="salutation">许仟仟：</div>
+
+        <p>
+          晚上好！第一次用这种形式写小作文，如有不足请指出！
+          <span class="spoiler-wrap" data-hint="碎碎念">
+            <span class="spoiler-content">因为是临时揪AI写的小网页</span>
+            <span class="spoiler-mask" style="background: rgba(160, 110, 60, 0.9);">
+              <span class="spoiler-hint">碎碎念</span>
+            </span>
+          </span>
+        </p>
+
+        <p>首先恭喜你上个月底出了美味的浪漫城堡，流水也达标啦！昨天你又出了列车，你这家伙到底什么🐶运，什么好事都能给你碰上🫤快来给我老公刷点 快快快</p>
+
+        <div class="post-image-wrap">
+          <img src="img01.png" alt="图片01" class="post-img" width="404" height="310">
+          <div class="img-caption">△帮你回忆回忆</div>
+        </div>
+
+        <p>对你的印象始于你和狐灵灵互掐，俩人互叫狐仟仟和许灵灵，结果现在谁赢了我不说，一个天天被人喊一个已经没人记得了😋当初还以为你们俩是认识了好久的朋友呢。特别是你的口音，到底吃了多少个狐灵灵？？谁想得到你是广东人</p>
+
+        <p>换皮之后感觉你的形象和气质都变化挺大，原本凑不拉叽的，现在成乖巧小孩了，所以小屁孩不准玩刀🫵还不赶紧谢谢姐姐谢谢狐灵灵！听到了没！</p>
+
+        <p>百天是一个新里程碑！【api调用01开始】你现在有--个粉丝了！要再接再厉啊，争取速速千粉！【api调用01结束】我相信大家都会继续支持你，跟你一起走下去的！</p>
+
+        <p>从认识你开始就觉得你是一个有点皮，又有点笨的人，很高兴认识你！等你哪天退休了我可就去找你玩了👍</p>
+
+        <p>最后看看我给你准备的小惊喜吧😈</p>
+
+        <!-- 视频遮罩 -->
+        <div class="spoiler-wrap block" data-hint="彩蛋" style="border-radius: 8px;">
+          <video id="surprise-video" class="spoiler-content" src="video01.mp4" loop playsinline preload="metadata" style="width: 100%; display: block; min-height: 220px; background: #111;"></video>
+          <div class="spoiler-mask" style="background: rgba(100, 30, 90, 0.92);">
+            <span class="spoiler-hint">🎁 彩蛋</span>
+          </div>
+        </div>
+        <div class="img-caption">△小惊喜</div>
+
+        <!-- 底部GIF -->
+        <div class="gif-row">
+          <img src="gif01.gif" alt="gif" class="gif-img">
+          <img src="gif01.gif" alt="gif" class="gif-img">
+          <img src="gif01.gif" alt="gif" class="gif-img">
+        </div>
+      </div>
+
+      <div class="article-footer">
+        <div class="article-actions">
+          <div class="action-item" onclick="this.classList.toggle('liked');">
+            <span>&#10084;&#65039;</span>
+            <span>524</span>
+          </div>
+          <div class="action-item">
+            <span>&#11088;</span>
+            <span>收藏</span>
+          </div>
+          <div class="action-item">
+            <span>&#8599;&#65039;</span>
+            <span>分享</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ========== 1. 剧透遮罩 ========== */
+(function() {
+  document.addEventListener('click', function(e) {
+    const wrap = e.target.closest('.spoiler-wrap');
+    if (!wrap || wrap.classList.contains('revealed')) return;
+
+    wrap.classList.add('revealed');
+
+    // 视频遮罩：自动播放 + 禁止暂停
+    const video = wrap.querySelector('video');
+    if (video) {
+      video.play().catch(function(){});
+      video.addEventListener('pause', function forcePlay() {
+        if (!video.ended && video.currentTime > 0) {
+          video.play().catch(function(){});
+        }
+      });
+    }
+  });
+
+  document.addEventListener('selectstart', function(e) {
+    const wrap = e.target.closest('.spoiler-wrap');
+    if (wrap && !wrap.classList.contains('revealed')) {
+      e.preventDefault();
+    }
+  });
+})();
+
+/* ========== 2. B站粉丝数 API ========== */
+(function() {
+  const CONFIG = {
+    uid:         '3706971377109006',
+    refreshSec:  10,
+    startMark:   '【api调用01开始】',
+    endMark:     '【api调用01结束】',
+    apiUrl:      '/api/bili/fans?vmid='
+  };
+
+  function findMarkedNode() {
+    const walker = document.createTreeWalker(
+      document.body, NodeFilter.SHOW_TEXT, null, false
+    );
+    let node;
+    while (node = walker.nextNode()) {
+      const t = node.textContent;
+      if (t.includes(CONFIG.startMark) && t.includes(CONFIG.endMark))
+        return node;
+    }
+    return null;
+  }
+
+  function injectLiveSpan(textNode) {
+    const text   = textNode.textContent;
+    const s      = text.indexOf(CONFIG.startMark);
+    const e      = text.indexOf(CONFIG.endMark) + CONFIG.endMark.length;
+    const before = text.slice(0, s);
+    const after  = text.slice(e);
+    const parent = textNode.parentNode;
+
+    if (before) parent.insertBefore(document.createTextNode(before), textNode);
+
+    const live = document.createElement('span');
+    live.id = 'bili-fan-live';
+    live.style.color = '#00a1d6';
+    live.style.fontWeight = '600';
+    live.textContent = '加载中…';
+    parent.insertBefore(live, textNode);
+
+    if (after) parent.insertBefore(document.createTextNode(after), textNode);
+
+    parent.removeChild(textNode);
+    return live;
+  }
+
+  async function fetchFans() {
+    const url = CONFIG.apiUrl + CONFIG.uid + '&_t=' + Date.now();
+    const res = await fetch(url, { cache: 'no-store' });
+    const data = await res.json();
+    if (data.code !== 0) throw new Error(data.message || 'API error');
+    return data.data.follower;
+  }
+
+  function updateSpan(span, fans) {
+    span.textContent = '你现在有' + fans + '个粉丝了！要再接再厉啊，争取速速千粉！';
+  }
+
+  async function tick(span) {
+    try {
+      const fans = await fetchFans();
+      updateSpan(span, fans);
+    } catch (err) {
+      console.error('[BiliFan]', err);
+    }
+  }
+
+  const node = findMarkedNode();
+  if (!node) {
+    console.error('[BiliFan] 未找到标记文本');
+    return;
+  }
+
+  const span = injectLiveSpan(node);
+  tick(span);
+  let timer = setInterval(() => tick(span), CONFIG.refreshSec * 1000);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      clearInterval(timer);
+      timer = null;
+    } else {
+      tick(span);
+      if (!timer) timer = setInterval(() => tick(span), CONFIG.refreshSec * 1000);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
